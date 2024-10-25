@@ -22,6 +22,6 @@ public class InstituteEntity {
     private String contact;
     private String address;
 
-    @OneToMany(mappedBy = "institute")
-    private List<RegisteredStudentsEntity> studentList;
+    @OneToMany(mappedBy = "institute",cascade = CascadeType.ALL)
+    private List<RegisteredStudentsEntity> registeredStudents;
 }

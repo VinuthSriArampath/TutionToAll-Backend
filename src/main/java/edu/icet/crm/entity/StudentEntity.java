@@ -1,14 +1,15 @@
 package edu.icet.crm.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -25,4 +26,7 @@ public class StudentEntity {
     private String contact;
     private String email;
     private String address;
+
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    private List<RegisteredStudentsEntity> registeredInstitutes;
 }

@@ -1,5 +1,7 @@
 package edu.icet.crm.entity;
 
+import edu.icet.crm.model.Institute;
+import edu.icet.crm.model.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,13 +15,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "RegisteredStudents")
+@Table(name = "registered_students")
 public class RegisteredStudentsEntity {
     @Id
     @ManyToOne
     @JoinColumn(name = "instituteId")
     private InstituteEntity institute;
-    @OneToMany
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "studentId")
     private StudentEntity student;
     private LocalDate date;
 }
