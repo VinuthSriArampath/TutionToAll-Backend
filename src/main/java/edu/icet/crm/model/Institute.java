@@ -10,4 +10,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Institute {
+    private String instituteId;
+    private String name;
+    private String email;
+    private String contact;
+    private String address;
 }

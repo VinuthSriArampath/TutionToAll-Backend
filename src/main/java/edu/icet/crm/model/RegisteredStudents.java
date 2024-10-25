@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Course {
-    private String courseId;
-    private String name;
-    private String type;
+public class RegisteredStudents {
+    private Institute institute;
+    private Student student;
+    private LocalDate date;
 }

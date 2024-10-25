@@ -10,4 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Note {
+    private String noteId;
+    private String title;
 }
