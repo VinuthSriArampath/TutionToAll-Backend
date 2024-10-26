@@ -1,7 +1,5 @@
 package edu.icet.crm.entity;
 
-import edu.icet.crm.model.Assignment;
-import edu.icet.crm.model.Student;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

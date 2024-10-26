@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +20,7 @@ public class Student {
     private String contact;
     private String email;
     private String address;
+    private List<RegisteredStudents> registeredInstitutes;
+    private List<StudentRegisteredCourses> registeredCourses;
+    private List<StudentAssignmentSubmission> submissionList;
 }

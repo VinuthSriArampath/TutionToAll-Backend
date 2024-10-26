@@ -5,12 +5,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 public class Course {
+    private Institute institute;
     private String courseId;
     private String name;
     private String type;
+    private List<StudentRegisteredCourses> studentCoursesList;
+    private List<Assignment> assignmentList;
 }

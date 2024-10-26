@@ -15,5 +15,4 @@ public class RegisteredStudents {
     private Institute institute;
     private Student student;
     private LocalDate date;
-
 }
