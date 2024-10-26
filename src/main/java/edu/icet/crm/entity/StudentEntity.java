@@ -30,4 +30,7 @@ public class StudentEntity {
 
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private List<StudentRegisteredCoursesEntity> registeredCourses;
+
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    private List<StudentAssignmentSubmissionEntity> submissionList;
 }

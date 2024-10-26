@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,13 +21,14 @@ public class AssignmentEntity {
     private String assignmentName;
     private LocalDate dueDate;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "teacherId")
     private TeacherEntity teacher;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "courseId")
     private CourseEntity course;
+
+    @OneToMany(mappedBy = "assignment",cascade = CascadeType.ALL)
+    private List<StudentAssignmentSubmissionEntity> submittedList;
 }
