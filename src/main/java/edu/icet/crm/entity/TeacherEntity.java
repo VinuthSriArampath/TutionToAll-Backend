@@ -30,4 +30,7 @@ public class TeacherEntity {
 
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
     private List<AssignmentEntity> managedAssignmentList;
+
+    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
+    private List<NoteEntity> managedNoteList;
 }

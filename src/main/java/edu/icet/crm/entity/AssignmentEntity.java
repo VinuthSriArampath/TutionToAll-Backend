@@ -24,4 +24,9 @@ public class AssignmentEntity {
     @ManyToOne
     @JoinColumn(name = "teacherId")
     private TeacherEntity teacher;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "courseId")
+    private CourseEntity course;
 }

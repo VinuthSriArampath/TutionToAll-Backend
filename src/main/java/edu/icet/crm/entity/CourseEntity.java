@@ -25,4 +25,7 @@ public class CourseEntity {
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
     private List<StudentRegisteredCoursesEntity> studentCoursesList;
+
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    private List<AssignmentEntity> assignmentList;
 }
