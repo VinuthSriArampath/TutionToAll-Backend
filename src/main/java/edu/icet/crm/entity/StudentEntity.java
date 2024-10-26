@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -29,4 +27,7 @@ public class StudentEntity {
 
     @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private List<RegisteredStudentsEntity> registeredInstitutes;
+
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    private List<StudentRegisteredCoursesEntity> registeredCourses;
 }

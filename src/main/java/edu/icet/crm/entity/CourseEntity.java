@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,7 +15,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "course")
 public class CourseEntity {
-    @Id
     @ManyToOne
     @JoinColumn(name = "instituteId")
     private InstituteEntity institute;
@@ -21,4 +22,7 @@ public class CourseEntity {
     private String courseId;
     private String name;
     private String type;
+
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    private List<StudentRegisteredCoursesEntity> studentCoursesList;
 }
