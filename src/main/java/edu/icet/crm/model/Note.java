@@ -1,6 +1,5 @@
 package edu.icet.crm.model;
 
-import edu.icet.crm.entity.TeacherEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
