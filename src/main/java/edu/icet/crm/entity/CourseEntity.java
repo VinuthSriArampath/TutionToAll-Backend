@@ -1,8 +1,6 @@
 package edu.icet.crm.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +13,10 @@ import lombok.ToString;
 @Entity
 @Table(name = "course")
 public class CourseEntity {
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "instituteId")
+    private InstituteEntity institute;
     @Id
     private String courseId;
     private String name;

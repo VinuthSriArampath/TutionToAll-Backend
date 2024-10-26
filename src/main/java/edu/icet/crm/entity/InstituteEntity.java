@@ -27,4 +27,7 @@ public class InstituteEntity {
 
     @OneToMany(mappedBy = "institute",cascade = CascadeType.ALL)
     private List<RegisteredTeachersEntity> registeredTeachers;
+
+    @OneToMany(mappedBy = "institute",cascade = CascadeType.ALL)
+    private List<CourseEntity> courseList;
 }
