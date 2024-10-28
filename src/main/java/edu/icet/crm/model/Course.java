@@ -13,7 +13,7 @@ import java.util.List;
 @ToString
 public class Course {
     private Institute institute;
-    private String courseId;
+    private String id;
     private String name;
     private String type;
     private List<StudentRegisteredCourses> studentCoursesList;

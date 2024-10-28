@@ -23,5 +23,6 @@ public class StudentRegisteredCoursesEntity {
     @ManyToOne
     @JoinColumn(name = "courseId")
     private CourseEntity course;
+    @Column(name = "registered_date")
     private LocalDate date;
 }

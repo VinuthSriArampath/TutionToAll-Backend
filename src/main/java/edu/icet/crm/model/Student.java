@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Student {
-    private String studentId;
+    private String id;
     private String fName;
     private String lName;
     private LocalDate dob;

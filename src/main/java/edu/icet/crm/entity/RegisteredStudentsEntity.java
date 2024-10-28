@@ -23,5 +23,6 @@ public class RegisteredStudentsEntity {
     @ManyToOne
     @JoinColumn(name = "studentId")
     private StudentEntity student;
+    @Column(name = "registered_date")
     private LocalDate date;
 }

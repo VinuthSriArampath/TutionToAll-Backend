@@ -19,8 +19,11 @@ public class CourseEntity {
     @JoinColumn(name = "instituteId")
     private InstituteEntity institute;
     @Id
-    private String courseId;
+    @Column(name = "course_id")
+    private String id;
+    @Column(name = "course_name")
     private String name;
+    @Column(name = "course_type")
     private String type;
 
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)

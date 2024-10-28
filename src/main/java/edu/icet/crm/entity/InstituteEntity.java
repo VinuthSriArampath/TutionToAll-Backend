@@ -16,11 +16,17 @@ import java.util.List;
 @Table(name = "institute")
 public class InstituteEntity {
     @Id
-    private String instituteId;
+    @Column(name = "institute_id")
+    private String id;
+    @Column(name = "institute_name")
     private String name;
+    @Column(name = "institute_email")
     private String email;
+    @Column(name = "institute_contact")
     private String contact;
+    @Column(name = "institute_address")
     private String address;
+    @Column(name = "institute_login_password")
     private String password;
 
     @OneToMany(mappedBy = "institute",cascade = CascadeType.ALL)

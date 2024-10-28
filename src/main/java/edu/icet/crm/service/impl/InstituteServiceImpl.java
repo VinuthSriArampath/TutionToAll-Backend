@@ -20,9 +20,22 @@ public class InstituteServiceImpl implements InstituteService {
     @Override
     public void registerInstitutes(Institute institute) {
         InstituteEntity instituteEntity = objectmapper.convertValue(institute, InstituteEntity.class);
-        if (instituteValidator.validateInstitute(instituteEntity)){
+        if (Boolean.TRUE.equals(instituteValidator.validateInstitute(instituteEntity))){
             instituteRepository.save(instituteEntity);
         }
+    }
+    @Override
+    public Institute getInstituteById(String id) {
+        InstituteEntity byid = instituteRepository.findByid(id);
+        return objectmapper.convertValue(byid,Institute.class);
+    }
+    @Override
+    public void deleteInstitute(String id) {
+        instituteRepository.deleteById(id);
+    }
+    @Override
+    public void updateInstitute(Institute institute) {
+        instituteRepository.save(objectmapper.convertValue(institute,InstituteEntity.class));
     }
 }
 

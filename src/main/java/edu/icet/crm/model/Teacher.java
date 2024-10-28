@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Teacher {
-    private String teacherId;
+    private String id;
     private String fName;
     private String lName;
     private LocalDate dob;

@@ -14,7 +14,9 @@ import lombok.ToString;
 @Table(name = "note")
 public class NoteEntity {
     @Id
-    private String noteId;
+    @Column(name = "note_id")
+    private String id;
+    @Column(name = "note_title")
     private String title;
     @Id
     @ManyToOne

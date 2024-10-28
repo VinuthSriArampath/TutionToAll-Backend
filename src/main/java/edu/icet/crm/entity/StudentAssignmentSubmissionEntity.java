@@ -23,5 +23,6 @@ public class StudentAssignmentSubmissionEntity {
     @ManyToOne
     @JoinColumn(name = "assignmentId")
     private AssignmentEntity assignment;
+    @Column(name = "submitted_date")
     private LocalDate date;
 }

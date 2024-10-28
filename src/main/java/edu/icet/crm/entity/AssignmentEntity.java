@@ -17,8 +17,11 @@ import java.util.List;
 @Table(name = "Assignments")
 public class AssignmentEntity {
     @Id
-    private String assignmentId;
+    @Column(name = "assignment_id")
+    private String id;
+    @Column(name = "assignment_name")
     private String assignmentName;
+    @Column(name = "assignment_due_date")
     private LocalDate dueDate;
 
     @ManyToOne

@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -18,9 +19,22 @@ import java.util.Map;
 @RequestMapping("/institute")
 public class InstituteController {
     final InstituteService instituteService;
+
+    @GetMapping("/searchInstituteById/{id}")
+    public Institute searchInstituteBYId(@PathVariable String id){
+        return instituteService.getInstituteById(id);
+    }
     @PostMapping("/register-institutes")
     public void registerInstitutes(@Valid @RequestBody Institute institute){
         instituteService.registerInstitutes(institute);
+    }
+    @DeleteMapping("/delete-institute/{id}")
+    public void deleteInstitute(@PathVariable String id){
+        instituteService.deleteInstitute(id);
+    }
+    @PatchMapping("/updateStudent")
+    public void updateStudent(@Valid @RequestBody Institute institute){
+        instituteService.updateInstitute(institute);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -17,12 +17,19 @@ import java.util.List;
 @Table(name = "teacher")
 public class TeacherEntity {
     @Id
-    private String teacherId;
+    @Column(name = "teacher_id")
+    private String id;
+    @Column(name = "teacher_first_name")
     private String fName;
+    @Column(name = "teacher_last_name")
     private String lName;
+    @Column(name = "teacher_date_of_birth")
     private LocalDate dob;
+    @Column(name = "teacher_contact")
     private String contact;
+    @Column(name = "teacher_email")
     private String email;
+    @Column(name = "teacher_address")
     private String address;
 
     @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)

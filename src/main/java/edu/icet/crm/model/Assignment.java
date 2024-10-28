@@ -13,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Assignment {
-    private String assignmentId;
+    private String id;
     private String assignmentName;
     private LocalDate dueDate;
     private Teacher teacher;
