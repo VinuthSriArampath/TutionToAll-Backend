@@ -1,6 +1,7 @@
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Institute;
+import edu.icet.crm.service.InstituteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,10 +17,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/institute")
 public class InstituteController {
-
+    final InstituteService instituteService;
     @PostMapping("/register-institutes")
     public void registerInstitutes(@Valid @RequestBody Institute institute){
-        System.out.println(institute);
+        instituteService.registerInstitutes(institute);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
