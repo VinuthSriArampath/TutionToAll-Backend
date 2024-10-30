@@ -1,12 +1,12 @@
-// CourseController.java
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Course;
 import edu.icet.crm.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RequiredArgsConstructor
@@ -19,5 +19,12 @@ public class CourseController {
     public void addCourse(@PathVariable String instituteId, @Valid @RequestBody Course course){
         courseService.addCourse(instituteId, course);
     }
-
+    @GetMapping("/getAll/{instituteId}")
+    public List<Course> getCourses(@PathVariable String instituteId){
+        return courseService.getAllCourses(instituteId);
+    }
+    @DeleteMapping("/delete/{instituteId}")
+    public void deleteCourse(@PathVariable String instituteId){
+        courseService.deleteInstitute();
+    }
 }
