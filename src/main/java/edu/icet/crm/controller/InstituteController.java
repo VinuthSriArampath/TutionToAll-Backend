@@ -1,7 +1,9 @@
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Institute;
+import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @CrossOrigin
 @RequiredArgsConstructor
@@ -18,7 +21,7 @@ import java.util.Map;
 @RequestMapping("/institute")
 public class InstituteController {
     final InstituteService instituteService;
-
+    final EmailService emailService;
     @GetMapping("/searchInstituteById/{id}")
     public Institute searchInstituteBYId(@PathVariable String id){
         return instituteService.getInstituteById(id);
@@ -36,6 +39,17 @@ public class InstituteController {
         instituteService.updateInstitute(institute);
     }
 
+    @GetMapping("/getRandomOtp/InstituteEmail/{email}")
+    public int getRandomOtp(@PathVariable String email) {
+        int randomOtp = new Random().nextInt(100000, 999999);
+        try {
+            emailService.sendEmail(email, "Institute Email Verification", "Your Otp Is :- " + randomOtp);
+            return randomOtp;
+        } catch (MessagingException e) {
+            return -1;
+        }
+
+    }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
@@ -48,4 +62,6 @@ public class InstituteController {
         });
         return errors;
     }
+
+
 }

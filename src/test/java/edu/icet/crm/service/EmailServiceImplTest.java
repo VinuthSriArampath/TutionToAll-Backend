@@ -19,6 +19,6 @@ class EmailServiceImplTest {
     EmailService emailService;
     @Test
     void test_sendEmail_whenAllCredentialsAreCorrect() throws MessagingException {
-        emailService.sendEmail("vinuthsriarampth@gmail.com","Email From TuitionToAll","Testing email from TuitionToAll");
+        emailService.sendEmail("vinuthsriarampath@outlook.com","Email From TuitionToAll","Testing email from TuitionToAll");
     }
 }
