@@ -1,5 +1,6 @@
 package edu.icet.crm.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,14 +16,17 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "student_assignment_submission")
 public class StudentAssignmentSubmissionEntity {
+
     @Id
     @ManyToOne
     @JoinColumn(name = "studentId")
     private StudentEntity student;
+
     @Id
     @ManyToOne
     @JoinColumn(name = "assignmentId")
     private AssignmentEntity assignment;
+
     @Column(name = "submitted_date")
     private LocalDate date;
 }

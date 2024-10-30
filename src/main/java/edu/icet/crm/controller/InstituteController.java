@@ -1,3 +1,4 @@
+// InstituteController.java
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Institute;
@@ -12,58 +13,52 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 @CrossOrigin
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/institute")
+@RequestMapping("/institutes")
 public class InstituteController {
+    private final InstituteService instituteService;
+    private final EmailService emailService;
+    private final Random random = new Random();
 
-    final InstituteService instituteService;
-    final EmailService emailService;
-
-    Random r=new Random();
-
-    @GetMapping("/searchInstituteById/{id}")
-    public Institute searchInstituteBYId(@PathVariable String id){
+    @GetMapping("/search/{id}")
+    public Institute searchInstituteById(@PathVariable String id) {
         return instituteService.getInstituteById(id);
     }
 
-    @PostMapping("/register-institutes")
-    public void registerInstitutes(@Valid @RequestBody Institute institute){
+    @PostMapping("/register")
+    public void registerInstitute(@Valid @RequestBody Institute institute) {
         instituteService.registerInstitutes(institute);
     }
 
-    @DeleteMapping("/delete-institute/{id}")
-    public void deleteInstitute(@PathVariable String id){
+    @DeleteMapping("/{id}")
+    public void deleteInstitute(@PathVariable String id) {
         instituteService.deleteInstitute(id);
     }
 
-    @PatchMapping("/updateStudent")
-    public void updateStudent(@Valid @RequestBody Institute institute){
+    @PatchMapping("/update")
+    public void updateInstitute(@Valid @RequestBody Institute institute) {
         instituteService.updateInstitute(institute);
     }
 
-    @GetMapping("/getRandomOtp/InstituteEmail/{email}")
-    public int getRandomOtp(@PathVariable String email) {
-
-        int randomOtp =r.nextInt(100000, 999999);
-
+    @GetMapping("/otp/{email}")
+    public int generateOtp(@PathVariable String email) {
+        int otp = random.nextInt(100000, 999999);
         try {
-            emailService.sendEmail(email, "Institute Email Verification", "Your Otp Is :- " + randomOtp);
-            return randomOtp;
+            emailService.sendEmail(email, "Institute Email Verification", "Your OTP is: " + otp);
+            return otp;
         } catch (MessagingException e) {
             return -1;
         }
-
     }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
@@ -72,6 +67,4 @@ public class InstituteController {
         });
         return errors;
     }
-
-
 }

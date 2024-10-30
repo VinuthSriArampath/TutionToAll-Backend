@@ -12,10 +12,15 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Course {
-    private Institute institute;
     private String id;
     private String name;
     private String type;
     private List<StudentRegisteredCourses> studentCoursesList;
     private List<Assignment> assignmentList;
+
+    public Course(String id, String name, String type) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
 }

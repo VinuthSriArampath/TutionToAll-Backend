@@ -1,5 +1,6 @@
 package edu.icet.crm.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,19 +17,26 @@ import java.util.List;
 @Entity
 @Table(name = "student")
 public class StudentEntity {
+
     @Id
     @Column(name = "student_id")
     private String id;
+
     @Column(name = "student_first_name")
     private String fName;
+
     @Column(name = "student_last_name")
     private String lName;
+
     @Column(name = "student_date_of_birth")
     private LocalDate dob;
+
     @Column(name = "student_contact")
     private String contact;
+
     @Column(name = "student_email")
     private String email;
+
     @Column(name = "student_address")
     private String address;
 
