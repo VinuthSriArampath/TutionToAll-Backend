@@ -10,5 +10,5 @@ public interface CourseService {
 
     List<Course> getAllCourses(String instituteId);
 
-    void deleteInstitute();
+    void deleteInstitute(String instituteId,String courseId);
 }

@@ -2,6 +2,7 @@ package edu.icet.crm.service.impl;
 
 import edu.icet.crm.model.Course;
 import edu.icet.crm.model.Institute;
+import edu.icet.crm.repository.CourseRepository;
 import edu.icet.crm.service.CourseService;
 import edu.icet.crm.service.InstituteService;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
-
+    private final CourseRepository courseRepository;
     private final InstituteService instituteService;
 
     @Override
@@ -26,7 +27,11 @@ public class CourseServiceImpl implements CourseService {
         return instituteService.getInstituteById(instituteId).getCourseList();
     }
     @Override
-    public void deleteInstitute() {
-
+    public void deleteInstitute(String instituteId,String courseId) {
+        Institute institute = instituteService.getInstituteById(instituteId);
+        List<Course> courseList = institute.getCourseList();
+        courseList.removeIf(course -> course.getId().equals(courseId));
+        instituteService.updateInstitute(institute);
+        courseRepository.delete(courseRepository.getReferenceById(courseId));
     }
 }

@@ -23,8 +23,8 @@ public class CourseController {
     public List<Course> getCourses(@PathVariable String instituteId){
         return courseService.getAllCourses(instituteId);
     }
-    @DeleteMapping("/delete/{instituteId}")
-    public void deleteCourse(@PathVariable String instituteId){
-        courseService.deleteInstitute();
+    @DeleteMapping("/delete/{courseId}/of/{instituteId}")
+    public void deleteCourse(@PathVariable("instituteId") String instituteId,@PathVariable("courseId") String courseId){
+        courseService.deleteInstitute(instituteId,courseId);
     }
 }
