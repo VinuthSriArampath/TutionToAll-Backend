@@ -23,20 +23,20 @@ class InstituteControllerTest {
     private ObjectMapper objectMapper;
     @Test
     void test_registerInstitutes_whenValidParameters() throws Exception {
-        Institute validInstitute = new Institute("I001","Sakya Institute","sakyainstitute@gmial.com","0719401800","Kollupitiya","Password");
+        Institute validInstitute = new Institute("Sakya Institute","sakyainstitute@gmial.com","0719401800","Kollupitiya","Password");
         mockMvc.perform(post("/institute/register-institutes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(validInstitute)))
                 .andExpect(status().isOk());
     }
-    @Test
-    void test_registerInstitutes_whenIdIsNull() throws Exception {
-        Institute instituteWithNullId=new Institute(null ,"Sakya Institute","sakyainstitute@gmial.com","0719401800","Kollupitiya","Password");
-
-        mockMvc.perform(post("/institute/register-institutes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(instituteWithNullId)))
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.instituteId").value("Institute id is missing !!"));
-    }
+//    @Test
+//    void test_registerInstitutes_whenIdIsNull() throws Exception {
+//        Institute instituteWithNullId=new Institute(null ,"Sakya Institute","sakyainstitute@gmial.com","0719401800","Kollupitiya","Password");
+//
+//        mockMvc.perform(post("/institute/register-institutes")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(objectMapper.writeValueAsString(instituteWithNullId)))
+//                .andExpect(status().isBadRequest())
+//                .andExpect(jsonPath("$.instituteId").value("Institute id is missing !!"));
+//    }
 }

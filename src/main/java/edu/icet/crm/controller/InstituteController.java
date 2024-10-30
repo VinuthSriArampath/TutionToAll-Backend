@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -20,20 +21,27 @@ import java.util.Random;
 @RestController
 @RequestMapping("/institute")
 public class InstituteController {
+
     final InstituteService instituteService;
     final EmailService emailService;
+
+    Random r=new Random();
+
     @GetMapping("/searchInstituteById/{id}")
     public Institute searchInstituteBYId(@PathVariable String id){
         return instituteService.getInstituteById(id);
     }
+
     @PostMapping("/register-institutes")
     public void registerInstitutes(@Valid @RequestBody Institute institute){
         instituteService.registerInstitutes(institute);
     }
+
     @DeleteMapping("/delete-institute/{id}")
     public void deleteInstitute(@PathVariable String id){
         instituteService.deleteInstitute(id);
     }
+
     @PatchMapping("/updateStudent")
     public void updateStudent(@Valid @RequestBody Institute institute){
         instituteService.updateInstitute(institute);
@@ -41,7 +49,9 @@ public class InstituteController {
 
     @GetMapping("/getRandomOtp/InstituteEmail/{email}")
     public int getRandomOtp(@PathVariable String email) {
-        int randomOtp = new Random().nextInt(100000, 999999);
+
+        int randomOtp =r.nextInt(100000, 999999);
+
         try {
             emailService.sendEmail(email, "Institute Email Verification", "Your Otp Is :- " + randomOtp);
             return randomOtp;

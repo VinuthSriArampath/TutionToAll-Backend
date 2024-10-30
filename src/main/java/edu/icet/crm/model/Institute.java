@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class Institute {
-    @NotNull @NotBlank(message = "Institute id is missing !!")
     private String id;
     @NotNull @NotBlank(message = "Institute name is missing !!")
     private String name;
@@ -33,8 +32,7 @@ public class Institute {
     private List<RegisteredTeachers> registeredTeachers;
     private List<Course> courseList;
 
-    public Institute(String id, String name, String email, String contact, String address,String password) {
-        this.id = id;
+    public Institute(String name, String email, String contact, String address,String password) {
         this.name = name;
         this.email = email;
         this.contact = contact;
