@@ -16,11 +16,9 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "registered_students")
 public class RegisteredStudentsEntity {
-
     @Id
-    @ManyToOne
-    @JoinColumn(name = "studentId")
-    private StudentEntity student;
+    @Column(name = "Institute_Student_Id")
+    private  String instituteStudentId;
     @Column(name = "registered_date")
     private LocalDate date;
 }

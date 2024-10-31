@@ -1,13 +1,19 @@
 package edu.icet.crm.controller;
 
+import edu.icet.crm.model.Student;
+import edu.icet.crm.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/student")
+@RequestMapping("/students")
 public class StudentController {
+    private final StudentService studentService;
+    @PostMapping("/register")
+    public void registerStudent(@Valid @RequestBody Student student){
+        studentService.registerStudent(student);
+    }
 }

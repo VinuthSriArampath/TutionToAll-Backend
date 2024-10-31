@@ -23,10 +23,10 @@ public class StudentEntity {
     private String id;
 
     @Column(name = "student_first_name")
-    private String fName;
+    private String firstName;
 
     @Column(name = "student_last_name")
-    private String lName;
+    private String lastName;
 
     @Column(name = "student_date_of_birth")
     private LocalDate dob;
@@ -40,12 +40,15 @@ public class StudentEntity {
     @Column(name = "student_address")
     private String address;
 
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="student_id",referencedColumnName = "student_id")
     private List<RegisteredStudentsEntity> registeredInstitutes;
 
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="student_id",referencedColumnName = "student_id")
     private List<StudentRegisteredCoursesEntity> registeredCourses;
 
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="student_id",referencedColumnName = "student_id")
     private List<StudentAssignmentSubmissionEntity> submissionList;
 }

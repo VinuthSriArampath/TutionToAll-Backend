@@ -14,8 +14,8 @@ import java.util.List;
 @ToString
 public class Student {
     private String id;
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private LocalDate dob;
     private String contact;
     private String email;
@@ -23,4 +23,14 @@ public class Student {
     private List<RegisteredStudents> registeredInstitutes;
     private List<StudentRegisteredCourses> registeredCourses;
     private List<StudentAssignmentSubmission> submissionList;
+
+    public Student(String id, String fName, String lName, LocalDate dob, String contact, String email, String address) {
+        this.id = id;
+        this.firstName = fName;
+        this.lastName = lName;
+        this.dob = dob;
+        this.contact = contact;
+        this.email = email;
+        this.address = address;
+    }
 }

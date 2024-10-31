@@ -19,11 +19,6 @@ public class StudentRegisteredCoursesEntity {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "studentId")
-    private StudentEntity student;
-
-    @Id
-    @ManyToOne
     @JoinColumn(name = "courseId")
     private CourseEntity course;
 
