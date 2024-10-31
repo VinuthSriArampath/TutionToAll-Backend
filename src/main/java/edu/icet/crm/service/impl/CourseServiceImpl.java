@@ -17,6 +17,20 @@ public class CourseServiceImpl implements CourseService {
     private final InstituteService instituteService;
 
     @Override
+    public void updateCourse(String instituteId, Course course) {
+        Institute institute = instituteService.getInstituteById(instituteId);
+        List<Course> courseList = institute.getCourseList();
+        courseList.forEach(courseFromList ->{
+            if (courseFromList.getId().equals(course.getId())){
+                courseFromList.setName(course.getName());
+                courseFromList.setType(course.getType());
+            }
+        } );
+        instituteService.updateInstitute(institute);
+    }
+
+
+    @Override
     public void addCourse(String instituteId, Course course) {
         Institute institute = instituteService.getInstituteById(instituteId);
         institute.getCourseList().add(course);
