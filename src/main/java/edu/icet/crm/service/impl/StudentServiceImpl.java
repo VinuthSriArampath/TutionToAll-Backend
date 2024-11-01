@@ -10,10 +10,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
+
     private final StudentRepository studentRepository;
     private final ObjectMapper objectMapper;
     @Override
     public void registerStudent(Student student) {
         studentRepository.save(objectMapper.convertValue(student, StudentEntity.class));
+    }
+    @Override
+    public Student searchStudentById(String studentId) {
+        return objectMapper.convertValue(studentRepository.findByid(studentId), Student.class);
     }
 }

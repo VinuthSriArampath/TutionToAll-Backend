@@ -16,4 +16,8 @@ public class StudentController {
     public void registerStudent(@Valid @RequestBody Student student){
         studentService.registerStudent(student);
     }
+    @GetMapping("/search/{id}")
+    public Student searchStudentById(@PathVariable String id){
+        return studentService.searchStudentById(id);
+    }
 }
