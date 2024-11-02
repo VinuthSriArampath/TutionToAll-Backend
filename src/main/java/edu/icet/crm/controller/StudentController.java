@@ -20,4 +20,8 @@ public class StudentController {
     public Student searchStudentById(@PathVariable String id){
         return studentService.searchStudentById(id);
     }
+    @DeleteMapping("/delete/{id}")
+    public void deleteStudent(@PathVariable String id){
+        studentService.deleteStudent(id);
+    }
 }

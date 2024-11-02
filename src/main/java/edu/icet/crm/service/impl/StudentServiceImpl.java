@@ -14,6 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
+    @Override
+    public void deleteStudent(String id) {
+        studentRepository.deleteById(id);
+    }
 
     private final StudentRepository studentRepository;
     private final ObjectMapper mapper;
