@@ -1,6 +1,5 @@
 package edu.icet.crm.service;
 
-import edu.icet.crm.entity.CourseEntity;
 import edu.icet.crm.model.Course;
 import jakarta.validation.Valid;
 
@@ -11,7 +10,11 @@ public interface CourseService {
 
     List<Course> getAllCourses(String instituteId);
 
+    List<Course> getAllCourses();
+
     void deleteInstitute(String instituteId,String courseId);
 
     void updateCourse(String instituteId, @Valid Course course);
+
+    String generateCourseId();
 }
