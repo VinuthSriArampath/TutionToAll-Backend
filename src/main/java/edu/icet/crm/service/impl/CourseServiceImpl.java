@@ -3,10 +3,12 @@ package edu.icet.crm.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.CourseEntity;
 import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
+import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.Course;
 import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.StudentRegisteredCourses;
 import edu.icet.crm.repository.CourseRepository;
+import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.CourseService;
 import edu.icet.crm.service.InstituteService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
+    private final CourseRepository courseRepository;
+    private final InstituteService instituteService;
+    private final TeacherRepository teacherRepository;
+    private final ObjectMapper mapper;
+
     @Override
     public void addStudent(StudentRegisteredCourses studentRegisteredCourses) {
         CourseEntity courseEntity = mapper.convertValue(courseRepository.findById(studentRegisteredCourses.getCourseId()), CourseEntity.class);
@@ -25,9 +32,13 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.save(courseEntity);
     }
 
-    private final CourseRepository courseRepository;
-    private final InstituteService instituteService;
-    private final ObjectMapper mapper;
+    @Override
+    public void addTeacher(String courseId, String teacherId) {
+        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
+        teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
+        teacherRepository.save(teacherEntity);
+    }
+
     @Override
     public List<Course> getAllCourses() {
         List<Course> allCourseList=new ArrayList<>();

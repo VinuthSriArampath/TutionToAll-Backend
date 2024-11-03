@@ -17,10 +17,4 @@ public class Course {
     private String type;
     private List<StudentRegisteredCourses> studentCoursesList;
     private List<Assignment> assignmentList;
-
-    public Course(String id, String name, String type) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-    }
 }

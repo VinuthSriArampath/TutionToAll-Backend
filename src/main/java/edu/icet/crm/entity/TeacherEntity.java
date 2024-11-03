@@ -38,6 +38,10 @@ public class TeacherEntity {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
+    private List<CourseEntity> registeredCourses;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
     private List<AssignmentEntity> managedAssignmentList;
 
     @OneToMany(cascade = CascadeType.ALL)

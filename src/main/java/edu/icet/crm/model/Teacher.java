@@ -21,6 +21,7 @@ public class Teacher {
     private String email;
     private String address;
     private List<RegisteredTeachers> registeredInstitutes;
+    private List<Course> registeredCourses;
     private List<Assignment> managedAssignmentList;
     private List<Note> managedNoteList;
 }

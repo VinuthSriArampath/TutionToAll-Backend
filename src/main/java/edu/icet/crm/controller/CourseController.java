@@ -36,4 +36,8 @@ public class CourseController {
     public void addStudent(@RequestBody StudentRegisteredCourses studentRegisteredCourses){
         courseService.addStudent(studentRegisteredCourses);
     }
+    @PostMapping("/{courseId}/teachers/add/{teacherId}")
+    public void addTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
+        courseService.addTeacher(courseId,teacherId);
+    }
 }

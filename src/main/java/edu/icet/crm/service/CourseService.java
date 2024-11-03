@@ -20,4 +20,6 @@ public interface CourseService {
     String generateCourseId();
 
     void addStudent(StudentRegisteredCourses studentRegisteredCourses);
+
+    void addTeacher(String courseId,String teacherId);
 }
