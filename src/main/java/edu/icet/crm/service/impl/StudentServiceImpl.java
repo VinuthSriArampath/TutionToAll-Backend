@@ -41,7 +41,7 @@ public class StudentServiceImpl implements StudentService {
             int id2 = Integer.parseInt(stu2.getId().split("S")[1]);
             return Integer.compare(id1,id2);
         });
-        int idNum=Integer.parseInt(allStudents.get(allStudents.size()-1).getId().split("S")[1])+1;
+        int idNum=allStudents.isEmpty() ? 1 : Integer.parseInt(allStudents.get(allStudents.size()-1).getId().split("S")[1])+1;
         return "S"+idNum;
     }
     @Override
@@ -58,6 +58,6 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public Student searchStudentById(String studentId) {
-        return mapper.convertValue(studentRepository.findByid(studentId), Student.class);
+        return mapper.convertValue(studentRepository.findById(studentId), Student.class);
     }
 }

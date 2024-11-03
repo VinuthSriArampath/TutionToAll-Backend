@@ -14,8 +14,8 @@ import java.util.List;
 @ToString
 public class Teacher {
     private String id;
-    private String fName;
-    private String lName;
+    private String firstName;
+    private String lastName;
     private LocalDate dob;
     private String contact;
     private String email;

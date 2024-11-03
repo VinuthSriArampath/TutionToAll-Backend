@@ -1,6 +1,5 @@
 package edu.icet.crm.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,9 +20,9 @@ public class TeacherEntity {
     @Column(name = "teacher_id")
     private String id;
     @Column(name = "teacher_first_name")
-    private String fName;
+    private String firstName;
     @Column(name = "teacher_last_name")
-    private String lName;
+    private String lastName;
     @Column(name = "teacher_date_of_birth")
     private LocalDate dob;
     @Column(name = "teacher_contact")

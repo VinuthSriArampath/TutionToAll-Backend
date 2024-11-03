@@ -43,8 +43,7 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public Institute getInstituteById(String id) {
-        InstituteEntity byId = instituteRepository.findByid(id);
-        return objectmapper.convertValue(byId,Institute.class);
+        return objectmapper.convertValue(instituteRepository.findById(id),Institute.class);
     }
 
     @Override
