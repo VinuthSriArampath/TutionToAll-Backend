@@ -2,6 +2,7 @@ package edu.icet.crm.service;
 
 import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.RegisteredStudents;
+import edu.icet.crm.model.RegisteredTeachers;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -20,4 +21,6 @@ public interface InstituteService {
     String generateInstituteId();
 
     void addStudent(RegisteredStudents regStudents);
+
+    void addTeacher(RegisteredTeachers regTeachers);
 }

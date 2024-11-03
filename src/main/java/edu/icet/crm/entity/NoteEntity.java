@@ -18,8 +18,4 @@ public class NoteEntity {
     private String id;
     @Column(name = "note_title")
     private String title;
-    @Id
-    @ManyToOne
-    @JoinColumn(name = "teacherId")
-    private TeacherEntity teacher;
 }

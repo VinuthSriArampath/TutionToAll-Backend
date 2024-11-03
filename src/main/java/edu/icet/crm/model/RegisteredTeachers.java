@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @ToString
 public class RegisteredTeachers {
-    private Institute institute;
-    private Teacher teacher;
+    private String teacherId;
+    private String instituteId;
     private LocalDate date;
 }

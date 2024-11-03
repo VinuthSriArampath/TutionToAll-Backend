@@ -27,10 +27,6 @@ public class AssignmentEntity {
     private LocalDate dueDate;
 
     @ManyToOne
-    @JoinColumn(name = "teacherId")
-    private TeacherEntity teacher;
-
-    @ManyToOne
     @JoinColumn(name = "courseId")
     private CourseEntity course;
 

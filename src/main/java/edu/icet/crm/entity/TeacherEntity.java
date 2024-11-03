@@ -32,12 +32,15 @@ public class TeacherEntity {
     @Column(name = "teacher_address")
     private String address;
 
-    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
     private List<RegisteredTeachersEntity> registeredInstitutes;
 
-    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
     private List<AssignmentEntity> managedAssignmentList;
 
-    @OneToMany(mappedBy = "teacher",cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
     private List<NoteEntity> managedNoteList;
 }

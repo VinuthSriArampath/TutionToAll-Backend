@@ -3,8 +3,10 @@ package edu.icet.crm.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.InstituteEntity;
 import edu.icet.crm.entity.RegisteredStudentsEntity;
+import edu.icet.crm.entity.RegisteredTeachersEntity;
 import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.RegisteredStudents;
+import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.repository.InstituteRepository;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.util.validation.InstituteValidationUtil;
@@ -17,6 +19,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class InstituteServiceImpl implements InstituteService {
+    @Override
+    public void addTeacher(RegisteredTeachers regTeachers) {
+        InstituteEntity institute = instituteRepository.findByid(regTeachers.getInstituteId());
+        institute.getRegisteredTeachers().add(mapper.convertValue(regTeachers, RegisteredTeachersEntity.class));
+        instituteRepository.save(institute);
+    }
+
     @Override
     public void addStudent(RegisteredStudents regStudents) {
         InstituteEntity institute = instituteRepository.findByid(regStudents.getInstituteId());
