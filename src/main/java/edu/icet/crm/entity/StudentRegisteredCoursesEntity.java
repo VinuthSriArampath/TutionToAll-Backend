@@ -15,12 +15,12 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "student_registered_courses")
 public class StudentRegisteredCoursesEntity {
-
     @Id
-    @ManyToOne
-    @JoinColumn(name = "courseId")
-    private CourseEntity course;
-
+    @Column(name = "student_id")
+    private String studentId;
+    @Id
+    @Column(name = "course_id")
+    private String courseId;
     @Column(name = "registered_date")
     private LocalDate date;
 }

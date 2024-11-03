@@ -1,6 +1,7 @@
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Course;
+import edu.icet.crm.model.StudentRegisteredCourses;
 import edu.icet.crm.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +31,9 @@ public class CourseController {
     @PatchMapping("/update/{instituteId}")
     public void updateCourse(@PathVariable String instituteId,@Valid @RequestBody Course course){
         courseService.updateCourse(instituteId,course);
+    }
+    @PostMapping("/students/add")
+    public void addStudent(@RequestBody StudentRegisteredCourses studentRegisteredCourses){
+        courseService.addStudent(studentRegisteredCourses);
     }
 }

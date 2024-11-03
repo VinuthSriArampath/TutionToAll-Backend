@@ -1,6 +1,7 @@
 package edu.icet.crm.service;
 
 import edu.icet.crm.model.Course;
+import edu.icet.crm.model.StudentRegisteredCourses;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface CourseService {
     void updateCourse(String instituteId, @Valid Course course);
 
     String generateCourseId();
+
+    void addStudent(StudentRegisteredCourses studentRegisteredCourses);
 }

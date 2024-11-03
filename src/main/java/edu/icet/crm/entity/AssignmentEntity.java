@@ -26,10 +26,6 @@ public class AssignmentEntity {
     @Column(name = "assignment_due_date")
     private LocalDate dueDate;
 
-    @ManyToOne
-    @JoinColumn(name = "courseId")
-    private CourseEntity course;
-
     @OneToMany(mappedBy = "assignment",cascade = CascadeType.ALL)
     private List<StudentAssignmentSubmissionEntity> submittedList;
 }

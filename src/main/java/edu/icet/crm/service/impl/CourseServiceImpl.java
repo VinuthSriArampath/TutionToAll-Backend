@@ -1,8 +1,11 @@
 package edu.icet.crm.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.icet.crm.entity.CourseEntity;
+import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
 import edu.icet.crm.model.Course;
 import edu.icet.crm.model.Institute;
+import edu.icet.crm.model.StudentRegisteredCourses;
 import edu.icet.crm.repository.CourseRepository;
 import edu.icet.crm.service.CourseService;
 import edu.icet.crm.service.InstituteService;
@@ -15,6 +18,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
+    @Override
+    public void addStudent(StudentRegisteredCourses studentRegisteredCourses) {
+        CourseEntity courseEntity = mapper.convertValue(courseRepository.findById(studentRegisteredCourses.getCourseId()), CourseEntity.class);
+        courseEntity.getStudentCoursesList().add(mapper.convertValue(studentRegisteredCourses, StudentRegisteredCoursesEntity.class));
+        courseRepository.save(courseEntity);
+    }
 
     private final CourseRepository courseRepository;
     private final InstituteService instituteService;

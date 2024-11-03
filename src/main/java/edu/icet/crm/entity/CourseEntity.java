@@ -25,8 +25,10 @@ public class CourseEntity {
     private String type;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id",referencedColumnName = "course_id")
     private List<StudentRegisteredCoursesEntity> studentCoursesList;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id",referencedColumnName = "course_id")
     private List<AssignmentEntity> assignmentList;
 }
