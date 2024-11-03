@@ -40,6 +40,18 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    public Course getCourseByIdInInstitute(String courseId, String instituteId) {
+        Institute institute = instituteService.getInstituteById(instituteId);
+        List<Course> courseList = institute.getCourseList();
+        for (int i = 0; i < courseList.size(); i++) {
+            Course course = courseList.get(i);
+            if (course.getId().equals(courseId)) return course;
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Course> getAllCourses() {
         List<Course> allCourseList=new ArrayList<>();
         courseRepository.findAll().forEach(courseEntity -> allCourseList.add(mapper.convertValue(courseEntity, Course.class)));
