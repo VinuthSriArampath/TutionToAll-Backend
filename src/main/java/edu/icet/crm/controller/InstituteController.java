@@ -2,6 +2,7 @@
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Institute;
+import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
 import jakarta.mail.MessagingException;
@@ -54,6 +55,12 @@ public class InstituteController {
         } catch (MessagingException e) {
             return -1;
         }
+    }
+
+
+    @PostMapping("/students/add")
+    public void addStudent(@RequestBody RegisteredStudents regStudents){
+        instituteService.addStudent(regStudents);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

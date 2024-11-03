@@ -16,8 +16,11 @@ import java.time.LocalDate;
 @Table(name = "registered_students")
 public class RegisteredStudentsEntity {
     @Id
-    @Column(name = "Institute_Student_Id")
-    private  String instituteStudentId;
+    @Column(name = "student_id")
+    private String studentId;
+    @Id
+    @Column(name="institute_id")
+    private String instituteId;
     @Column(name = "registered_date")
     private LocalDate date;
 }

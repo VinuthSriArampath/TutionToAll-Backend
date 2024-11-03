@@ -2,7 +2,9 @@ package edu.icet.crm.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.InstituteEntity;
+import edu.icet.crm.entity.RegisteredStudentsEntity;
 import edu.icet.crm.model.Institute;
+import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.repository.InstituteRepository;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.util.validation.InstituteValidationUtil;
@@ -15,6 +17,14 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class InstituteServiceImpl implements InstituteService {
+    @Override
+    public void addStudent(RegisteredStudents regStudents) {
+        InstituteEntity institute = instituteRepository.findByid(regStudents.getInstituteId());
+        institute.getRegisteredStudents().add(mapper.convertValue(regStudents, RegisteredStudentsEntity.class));
+        instituteRepository.save(institute);
+    }
+    private final ObjectMapper mapper;
+    private final InstituteRepository instituteRepository;
     InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
 
     @Override
@@ -30,12 +40,11 @@ public class InstituteServiceImpl implements InstituteService {
     }
 
 
-    private final ObjectMapper objectmapper;
-    private final InstituteRepository instituteRepository;
+
     @Override
     public void registerInstitutes(Institute institute) {
         institute.setId(generateInstituteId());
-        InstituteEntity instituteEntity = objectmapper.convertValue(institute, InstituteEntity.class);
+        InstituteEntity instituteEntity = mapper.convertValue(institute, InstituteEntity.class);
         if (Boolean.TRUE.equals(instituteValidator.validateInstitute(instituteEntity))){
             instituteRepository.save(instituteEntity);
         }
@@ -43,7 +52,7 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public Institute getInstituteById(String id) {
-        return objectmapper.convertValue(instituteRepository.findById(id),Institute.class);
+        return mapper.convertValue(instituteRepository.findById(id),Institute.class);
     }
 
     @Override
@@ -53,7 +62,7 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public void updateInstitute(Institute institute) {
-        instituteRepository.save(objectmapper.convertValue(institute,InstituteEntity.class));
+        instituteRepository.save(mapper.convertValue(institute,InstituteEntity.class));
     }
 
     @Override
@@ -61,7 +70,7 @@ public class InstituteServiceImpl implements InstituteService {
         List<InstituteEntity> allInstituteEntities = instituteRepository.findAll();
         List<Institute> instituteList=new ArrayList<>();
         for (InstituteEntity institute : allInstituteEntities) {
-            instituteList.add(objectmapper.convertValue(institute,Institute.class));
+            instituteList.add(mapper.convertValue(institute,Institute.class));
         }
         return instituteList;
     }
