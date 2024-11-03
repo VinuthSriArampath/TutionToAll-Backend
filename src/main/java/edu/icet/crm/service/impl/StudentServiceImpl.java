@@ -14,6 +14,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
+    private final StudentRepository studentRepository;
+    private final ObjectMapper mapper;
+
     @Override
     public void updateStudent(Student student) {
         StudentEntity studentEntity = studentRepository.findByid(student.getId());
@@ -31,8 +34,6 @@ public class StudentServiceImpl implements StudentService {
         studentRepository.deleteById(id);
     }
 
-    private final StudentRepository studentRepository;
-    private final ObjectMapper mapper;
     @Override
     public String generateStudentId() {
         List<Student> allStudents = getAllStudents();

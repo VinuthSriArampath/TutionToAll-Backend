@@ -19,6 +19,9 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class InstituteServiceImpl implements InstituteService {
+    private final ObjectMapper mapper;
+    private final InstituteRepository instituteRepository;
+    InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
     @Override
     public void addTeacher(RegisteredTeachers regTeachers) {
         InstituteEntity institute = instituteRepository.findByid(regTeachers.getInstituteId());
@@ -32,9 +35,6 @@ public class InstituteServiceImpl implements InstituteService {
         institute.getRegisteredStudents().add(mapper.convertValue(regStudents, RegisteredStudentsEntity.class));
         instituteRepository.save(institute);
     }
-    private final ObjectMapper mapper;
-    private final InstituteRepository instituteRepository;
-    InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
 
     @Override
     public String generateInstituteId() {
