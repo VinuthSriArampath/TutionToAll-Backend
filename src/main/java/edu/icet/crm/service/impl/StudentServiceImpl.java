@@ -15,6 +15,18 @@ import java.util.List;
 @Service
 public class StudentServiceImpl implements StudentService {
     @Override
+    public void updateStudent(Student student) {
+        StudentEntity studentEntity = studentRepository.findByid(student.getId());
+        studentEntity.setFirstName(student.getFirstName());
+        studentEntity.setLastName(student.getLastName());
+        studentEntity.setContact(student.getContact());
+        studentEntity.setDob(student.getDob());
+        studentEntity.setEmail(student.getEmail());
+        studentEntity.setAddress(student.getAddress());
+        studentRepository.save(studentEntity);
+    }
+
+    @Override
     public void deleteStudent(String id) {
         studentRepository.deleteById(id);
     }

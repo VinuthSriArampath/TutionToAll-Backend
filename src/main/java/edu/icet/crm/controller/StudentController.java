@@ -24,4 +24,8 @@ public class StudentController {
     public void deleteStudent(@PathVariable String id){
         studentService.deleteStudent(id);
     }
+    @PatchMapping("/update")
+    public void updateStudent(@RequestBody Student student){
+        studentService.updateStudent(student);
+    }
 }
