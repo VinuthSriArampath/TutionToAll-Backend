@@ -41,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
         }
     }
     @Override
-    public void sendEmail(String to, String subject, String body) throws MessagingException {
+    public void sendInstituteOtpEmail(String to, String subject, String body) {
 
         try {
             Map<String, Object> templateModel = new HashMap<>();
@@ -50,7 +50,21 @@ public class EmailServiceImpl implements EmailService {
             sendHtmlEmail(to, subject, "InstituteOtpMail", templateModel);
 
         } catch (MessagingException e) {
-            System.out.println("failed");
+            System.out.println(" Email Sending failed");
+        }
+    }
+
+    @Override
+    public void sendInstituteRegistrationSuccessful(String to, String subject, String userName,String instituteName) {
+        try {
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("userName", userName);
+            templateModel.put("instituteName",instituteName);
+
+            sendHtmlEmail(to, subject, "InstituteRegisteredSuccessfullyMail", templateModel);
+
+        } catch (MessagingException e) {
+            System.out.println(" Email Sending failed");
         }
     }
 }

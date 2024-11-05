@@ -50,14 +50,9 @@ public class InstituteController {
     @GetMapping("/otp/{email}")
     public int generateOtp(@PathVariable String email) {
         int otp = random.nextInt(100000, 999999);
-        try {
-            emailService.sendEmail(email, "Institute Email Verification",String.valueOf(otp));
-            return otp;
-        } catch (MessagingException e) {
-            return -1;
-        }
+        emailService.sendInstituteOtpEmail(email, "Institute Email Verification",String.valueOf(otp));
+        return otp;
     }
-
 
     @PostMapping("/students/add")
     public void addStudent(@RequestBody RegisteredStudents regStudents){

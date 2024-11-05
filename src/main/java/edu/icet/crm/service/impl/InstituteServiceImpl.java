@@ -8,6 +8,7 @@ import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.repository.InstituteRepository;
+import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.util.validation.InstituteValidationUtil;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import java.util.List;
 public class InstituteServiceImpl implements InstituteService {
     private final ObjectMapper mapper;
     private final InstituteRepository instituteRepository;
+    private final EmailService emailService;
     InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
     @Override
     public void addTeacher(RegisteredTeachers regTeachers) {
@@ -52,10 +54,16 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public void registerInstitutes(Institute institute) {
-        institute.setId(generateInstituteId());
+        String id = generateInstituteId();
+        institute.setId(id);
         InstituteEntity instituteEntity = mapper.convertValue(institute, InstituteEntity.class);
         if (Boolean.TRUE.equals(instituteValidator.validateInstitute(instituteEntity))){
-            instituteRepository.save(instituteEntity);
+            try {
+                instituteRepository.save(instituteEntity);
+                emailService.sendInstituteRegistrationSuccessful(instituteEntity.getEmail(),"Registration Successful",id,instituteEntity.getName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
