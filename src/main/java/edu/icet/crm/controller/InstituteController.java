@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,7 @@ public class InstituteController {
     }
 
     @PatchMapping("/update")
-    public void updateInstitute(@Valid @RequestBody Institute institute) {
+    public void updateInstitute(@RequestBody Institute institute) {
         instituteService.updateInstitute(institute);
     }
 

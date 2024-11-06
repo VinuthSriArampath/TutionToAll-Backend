@@ -20,6 +20,7 @@ public class Teacher {
     private String contact;
     private String email;
     private String address;
+    private String password;
     private List<RegisteredTeachers> registeredInstitutes;
     private List<Course> registeredCourses;
     private List<Assignment> managedAssignmentList;

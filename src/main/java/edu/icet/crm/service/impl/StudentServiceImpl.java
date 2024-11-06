@@ -26,6 +26,7 @@ public class StudentServiceImpl implements StudentService {
         studentEntity.setDob(student.getDob());
         studentEntity.setEmail(student.getEmail());
         studentEntity.setAddress(student.getAddress());
+        studentEntity.setPassword(student.getPassword());
         studentRepository.save(studentEntity);
     }
 

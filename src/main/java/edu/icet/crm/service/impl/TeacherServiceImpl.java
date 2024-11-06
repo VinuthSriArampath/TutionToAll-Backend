@@ -59,6 +59,7 @@ public class TeacherServiceImpl implements TeacherService {
         teacherEntity.setDob(teacher.getDob());
         teacherEntity.setEmail(teacher.getEmail());
         teacherEntity.setAddress(teacher.getAddress());
+        teacherEntity.setPassword(teacher.getPassword());
         teacherRepository.save(teacherEntity);
     }
 }

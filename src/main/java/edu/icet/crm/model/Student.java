@@ -20,17 +20,8 @@ public class Student {
     private String contact;
     private String email;
     private String address;
+    private String password;
     private List<RegisteredStudents> registeredInstitutes;
     private List<StudentRegisteredCourses> registeredCourses;
     private List<StudentAssignmentSubmission> submissionList;
-
-    public Student(String id, String fName, String lName, LocalDate dob, String contact, String email, String address) {
-        this.id = id;
-        this.firstName = fName;
-        this.lastName = lName;
-        this.dob = dob;
-        this.contact = contact;
-        this.email = email;
-        this.address = address;
-    }
 }

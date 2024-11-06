@@ -39,6 +39,9 @@ public class StudentEntity {
     @Column(name = "student_address")
     private String address;
 
+    @Column(name = "student_password")
+    private String password;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="student_id",referencedColumnName = "student_id")
     private List<RegisteredStudentsEntity> registeredInstitutes;

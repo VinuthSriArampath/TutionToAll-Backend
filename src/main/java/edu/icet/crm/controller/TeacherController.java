@@ -6,6 +6,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin
 @RequiredArgsConstructor
 @RestController
@@ -27,5 +29,9 @@ public class TeacherController {
     @PatchMapping("/update")
     public void updateStudent(@RequestBody Teacher teacher){
         teacherService.updateTeacher(teacher);
+    }
+    @GetMapping("/all")
+    public List<Teacher> getAllTeachers(){
+        return teacherService.getAllTeachers();
     }
 }
