@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -53,7 +55,10 @@ public class InstituteController {
         emailService.sendInstituteOtpEmail(email, "Institute Email Verification",String.valueOf(otp));
         return otp;
     }
-
+    @GetMapping("/all")
+    public List<Institute> getAllInstitutes(){
+        return instituteService.getAllInstitute();
+    }
     @PostMapping("/students/add")
     public void addStudent(@RequestBody RegisteredStudents regStudents){
         instituteService.addStudent(regStudents);

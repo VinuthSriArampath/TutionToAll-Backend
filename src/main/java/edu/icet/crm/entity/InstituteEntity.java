@@ -32,15 +32,15 @@ public class InstituteEntity {
     @Column(name = "institute_login_password")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="institute_id",referencedColumnName = "institute_id")
     private List<RegisteredStudentsEntity> registeredStudents;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="institute_id",referencedColumnName = "institute_id")
     private List<RegisteredTeachersEntity> registeredTeachers;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JoinColumn(name="institute_id",referencedColumnName = "institute_id")
     private List<CourseEntity> courseList;
 }
