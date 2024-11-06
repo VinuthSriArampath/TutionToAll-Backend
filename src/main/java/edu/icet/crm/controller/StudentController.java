@@ -1,10 +1,13 @@
 package edu.icet.crm.controller;
 
+import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.Student;
 import edu.icet.crm.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RequiredArgsConstructor
@@ -27,5 +30,9 @@ public class StudentController {
     @PatchMapping("/update")
     public void updateStudent(@RequestBody Student student){
         studentService.updateStudent(student);
+    }
+    @GetMapping("/all")
+    public List<Student> getAllStudents(){
+        return studentService.getAllStudents();
     }
 }
