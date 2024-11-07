@@ -7,7 +7,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 public interface CourseService {
-    void addCourse(String instituteId, Course course);
+    String addCourse(String instituteId, Course course);
 
     List<Course> getAllCourses(String instituteId);
 

@@ -85,11 +85,13 @@ public class CourseServiceImpl implements CourseService {
 
 
     @Override
-    public void addCourse(String instituteId, Course course) {
+    public String addCourse(String instituteId, Course course) {
         Institute institute = instituteService.getInstituteById(instituteId);
-        course.setId(generateCourseId());
+        String id = generateCourseId();
+        course.setId(id);
         institute.getCourseList().add(course);
         instituteService.updateInstitute(institute);
+        return id;
     }
     @Override
     public List<Course> getAllCourses(String instituteId) {

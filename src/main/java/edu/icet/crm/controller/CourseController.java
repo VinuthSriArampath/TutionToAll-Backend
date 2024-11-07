@@ -5,6 +5,7 @@ import edu.icet.crm.model.StudentRegisteredCourses;
 import edu.icet.crm.service.CourseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,8 +18,10 @@ public class CourseController {
     private final CourseService courseService;
 
     @PostMapping("/add/{instituteId}")
-    public void addCourse(@PathVariable String instituteId, @Valid @RequestBody Course course){
-        courseService.addCourse(instituteId, course);
+    public ResponseEntity<String> addCourse(@PathVariable String instituteId, @RequestBody Course course){
+        String id = courseService.addCourse(instituteId, course);
+        String returnString = "\""+id+"\"";
+        return ResponseEntity.ok(returnString);
     }
     @GetMapping("/getAll/{instituteId}")
     public List<Course> getCourses(@PathVariable String instituteId){

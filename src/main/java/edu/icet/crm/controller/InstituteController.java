@@ -6,7 +6,6 @@ import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
