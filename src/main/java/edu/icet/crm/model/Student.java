@@ -22,6 +22,5 @@ public class Student {
     private String address;
     private String password;
     private List<RegisteredStudents> registeredInstitutes;
-    private List<StudentRegisteredCourses> registeredCourses;
     private List<StudentAssignmentSubmission> submissionList;
 }

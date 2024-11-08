@@ -27,6 +27,10 @@ public class CourseController {
     public List<Course> getCourses(@PathVariable String instituteId){
         return courseService.getAllCourses(instituteId);
     }
+    @GetMapping("/getAll")
+    public List<Course> getAllCourse(){
+        return courseService.getAllCourses();
+    }
     @GetMapping("/search/{courseId}/institute/{instituteId}")
     public Course getCourseByIdInInstitute(@PathVariable("courseId") String courseId,@PathVariable("instituteId") String instituteId){
         return courseService.getCourseByIdInInstitute(courseId,instituteId);
@@ -46,5 +50,9 @@ public class CourseController {
     @PostMapping("/{courseId}/teachers/add/{teacherId}")
     public void addTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
         courseService.addTeacher(courseId,teacherId);
+    }
+    @GetMapping("/searchCourseById/{courseId}")
+    public Course searchCourseById(@PathVariable String courseId){
+        return courseService.searchCourseById(courseId);
     }
 }

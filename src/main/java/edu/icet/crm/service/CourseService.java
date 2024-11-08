@@ -24,4 +24,6 @@ public interface CourseService {
     void addTeacher(String courseId,String teacherId);
 
     Course getCourseByIdInInstitute(String courseId, String instituteId);
+
+    Course searchCourseById(String courseId);
 }

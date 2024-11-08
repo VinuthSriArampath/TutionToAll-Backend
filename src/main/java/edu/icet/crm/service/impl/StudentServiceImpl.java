@@ -2,19 +2,23 @@ package edu.icet.crm.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.StudentEntity;
-import edu.icet.crm.model.Student;
+import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
+import edu.icet.crm.model.*;
 import edu.icet.crm.repository.StudentRepository;
+import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
+    private final InstituteService instituteService;
     private final ObjectMapper mapper;
 
     @Override
@@ -60,6 +64,23 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public Student searchStudentById(String studentId) {
-        return mapper.convertValue(studentRepository.findById(studentId), Student.class);
+        studentRepository.findById(studentId);
+        Student student = mapper.convertValue(studentRepository.findById(studentId), Student.class);
+        StudentEntity studentEntity = mapper.convertValue(studentRepository.findById(studentId), StudentEntity.class);
+        List<RegisteredStudents> registeredInstitutes = student.getRegisteredInstitutes();
+        registeredInstitutes.forEach(institute ->{
+            Institute institute1 = instituteService.getInstituteById(institute.getInstituteId());
+            List<Course> courseList = institute1.getCourseList();
+            List<StudentRegisteredCoursesEntity> registeredCourses = studentEntity.getRegisteredCourses();
+            List<StudentRegisteredCourses> courses = new ArrayList<>();
+            courseList.forEach(course -> registeredCourses.forEach(regCourse->{
+                if (course.getId().equals(regCourse.getCourseId())){
+                    courses.add(new StudentRegisteredCourses(regCourse.getStudentId(),regCourse.getCourseId(),regCourse.getDate()));
+                }
+            }));
+            institute.setCourses(courses);
+            institute.setInstituteName(institute1.getName());
+        });
+        return student;
     }
 }

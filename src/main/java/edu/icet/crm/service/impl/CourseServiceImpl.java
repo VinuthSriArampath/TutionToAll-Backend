@@ -105,4 +105,9 @@ public class CourseServiceImpl implements CourseService {
         instituteService.updateInstitute(institute);
         courseRepository.delete(courseRepository.getReferenceById(courseId));
     }
+
+    @Override
+    public Course searchCourseById(String courseId) {
+        return mapper.convertValue(courseRepository.findById(courseId), Course.class);
+    }
 }
