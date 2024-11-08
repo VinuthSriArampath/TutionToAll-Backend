@@ -37,7 +37,7 @@ public class CourseController {
     }
     @DeleteMapping("/delete/{courseId}/of/{instituteId}")
     public void deleteCourse(@PathVariable("instituteId") String instituteId,@PathVariable("courseId") String courseId){
-        courseService.deleteInstitute(instituteId,courseId);
+        courseService.deleteFromInstitute(instituteId,courseId);
     }
     @PatchMapping("/update/{instituteId}")
     public void updateCourse(@PathVariable String instituteId,@Valid @RequestBody Course course){
@@ -51,8 +51,8 @@ public class CourseController {
     public void addTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
         courseService.addTeacher(courseId,teacherId);
     }
-    @GetMapping("/searchCourseById/{courseId}")
+    @GetMapping("/getCourseById/{courseId}")
     public Course searchCourseById(@PathVariable String courseId){
-        return courseService.searchCourseById(courseId);
+        return courseService.getCourseById(courseId);
     }
 }

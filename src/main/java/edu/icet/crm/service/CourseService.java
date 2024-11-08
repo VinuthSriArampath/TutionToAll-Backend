@@ -7,17 +7,19 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 public interface CourseService {
+    String generateCourseId();
+
     String addCourse(String instituteId, Course course);
-
-    List<Course> getAllCourses(String instituteId);
-
-    List<Course> getAllCourses();
-
-    void deleteInstitute(String instituteId,String courseId);
 
     void updateCourse(String instituteId, @Valid Course course);
 
-    String generateCourseId();
+    List<Course> getAllCourses();
+
+    List<Course> getAllCourses(String instituteId);
+
+    Course getCourseById(String courseId);
+
+    void deleteFromInstitute(String instituteId, String courseId);
 
     void addStudent(StudentRegisteredCourses studentRegisteredCourses);
 
@@ -25,5 +27,4 @@ public interface CourseService {
 
     Course getCourseByIdInInstitute(String courseId, String instituteId);
 
-    Course searchCourseById(String courseId);
 }

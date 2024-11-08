@@ -4,10 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.CourseEntity;
 import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
 import edu.icet.crm.entity.TeacherEntity;
-import edu.icet.crm.model.Course;
-import edu.icet.crm.model.Institute;
-import edu.icet.crm.model.StudentRegisteredCourses;
-import edu.icet.crm.model.Teacher;
+import edu.icet.crm.model.*;
 import edu.icet.crm.repository.CourseRepository;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.CourseService;
@@ -105,7 +102,7 @@ public class CourseServiceImpl implements CourseService {
         return instituteService.getInstituteById(instituteId).getCourseList();
     }
     @Override
-    public void deleteInstitute(String instituteId,String courseId) {
+    public void deleteFromInstitute(String instituteId, String courseId) {
         Institute institute = instituteService.getInstituteById(instituteId);
         List<Course> courseList = institute.getCourseList();
         courseList.removeIf(course -> course.getId().equals(courseId));
@@ -114,7 +111,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public Course searchCourseById(String courseId) {
+    public Course getCourseById(String courseId) {
         return mapper.convertValue(courseRepository.findById(courseId), Course.class);
     }
 }

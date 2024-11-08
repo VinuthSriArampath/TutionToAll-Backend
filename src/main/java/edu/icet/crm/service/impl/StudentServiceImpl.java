@@ -64,7 +64,6 @@ public class StudentServiceImpl implements StudentService {
     }
     @Override
     public Student searchStudentById(String studentId) {
-        studentRepository.findById(studentId);
         Student student = mapper.convertValue(studentRepository.findById(studentId), Student.class);
         StudentEntity studentEntity = mapper.convertValue(studentRepository.findById(studentId), StudentEntity.class);
         List<RegisteredStudents> registeredInstitutes = student.getRegisteredInstitutes();
