@@ -7,10 +7,12 @@ import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.Course;
 import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.StudentRegisteredCourses;
+import edu.icet.crm.model.Teacher;
 import edu.icet.crm.repository.CourseRepository;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.CourseService;
 import edu.icet.crm.service.InstituteService;
+import edu.icet.crm.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ import java.util.List;
 public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final InstituteService instituteService;
+    private final TeacherService teacherService;
     private final TeacherRepository teacherRepository;
     private final ObjectMapper mapper;
 
@@ -45,7 +48,11 @@ public class CourseServiceImpl implements CourseService {
         List<Course> courseList = institute.getCourseList();
         for (int i = 0; i < courseList.size(); i++) {
             Course course = courseList.get(i);
-            if (course.getId().equals(courseId)) return course;
+            if (course.getId().equals(courseId)) {
+                Teacher teacher = teacherService.searchTeacherById(course.getTeacherId());
+                course.setTeacherName(teacher.getFirstName()+" "+teacher.getLastName());
+                return course;
+            }
         }
 
         return null;

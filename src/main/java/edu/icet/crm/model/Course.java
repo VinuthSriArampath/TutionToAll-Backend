@@ -15,6 +15,8 @@ public class Course {
     private String id;
     private String name;
     private String type;
+    private String teacherId;
+    private String teacherName;
     private List<StudentRegisteredCourses> studentCoursesList;
     private List<Assignment> assignmentList;
 }
