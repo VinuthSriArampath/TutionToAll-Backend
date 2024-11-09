@@ -51,6 +51,10 @@ public class CourseController {
     public void addTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
         courseService.addTeacher(courseId,teacherId);
     }
+    @PatchMapping("/{courseId}/teachers/update/{teacherId}")
+    public void updateTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
+        courseService.updateTeacher(courseId,teacherId);
+    }
     @GetMapping("/getCourseById/{courseId}")
     public Course searchCourseById(@PathVariable String courseId){
         return courseService.getCourseById(courseId);

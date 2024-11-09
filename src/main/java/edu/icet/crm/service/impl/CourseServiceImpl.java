@@ -114,4 +114,11 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseById(String courseId) {
         return mapper.convertValue(courseRepository.findById(courseId), Course.class);
     }
+
+    @Override
+    public void updateTeacher(String courseId, String teacherId) {
+        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
+        teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
+        teacherRepository.save(teacherEntity);
+    }
 }

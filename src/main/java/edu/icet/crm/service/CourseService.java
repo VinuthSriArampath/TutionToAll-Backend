@@ -27,4 +27,5 @@ public interface CourseService {
 
     Course getCourseByIdInInstitute(String courseId, String instituteId);
 
+    void updateTeacher(String courseId, String teacherId);
 }
