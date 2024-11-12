@@ -4,10 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.InstituteEntity;
 import edu.icet.crm.entity.RegisteredStudentsEntity;
 import edu.icet.crm.entity.RegisteredTeachersEntity;
+import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.repository.InstituteRepository;
+import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.util.validation.InstituteValidationUtil;
@@ -23,11 +25,14 @@ public class InstituteServiceImpl implements InstituteService {
     private final ObjectMapper mapper;
     private final InstituteRepository instituteRepository;
     private final EmailService emailService;
+    private final TeacherRepository teacherRepository;
     InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
     @Override
     public void addTeacher(RegisteredTeachers regTeachers) {
+        teacherRepository.findById(regTeachers.getTeacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
         InstituteEntity institute = instituteRepository.findByid(regTeachers.getInstituteId());
-        institute.getRegisteredTeachers().add(mapper.convertValue(regTeachers, RegisteredTeachersEntity.class));
+        RegisteredTeachersEntity registeredTeacherEntity = mapper.convertValue(regTeachers, RegisteredTeachersEntity.class);
+        institute.getRegisteredTeachers().add(registeredTeacherEntity);
         instituteRepository.save(institute);
     }
 

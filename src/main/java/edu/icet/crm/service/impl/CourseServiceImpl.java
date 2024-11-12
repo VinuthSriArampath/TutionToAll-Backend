@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
+
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
@@ -48,15 +50,11 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseByIdInInstitute(String courseId, String instituteId) {
         Institute institute = instituteService.getInstituteById(instituteId);
         List<Course> courseList = institute.getCourseList();
-        for (int i = 0; i < courseList.size(); i++) {
-            Course course = courseList.get(i);
-            if (course.getId().equals(courseId)) {
-                Teacher teacher = teacherService.searchTeacherById(course.getTeacherId());
-                course.setTeacherName(teacher.getFirstName()+" "+teacher.getLastName());
-                return course;
+        for (Course course:courseList){
+            if (course.getId().equals(courseId)){
+                return getCourseById(courseId);
             }
         }
-
         return null;
     }
 
@@ -112,7 +110,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
     @Override
-    @Transactional // Ensures atomic operation
+    @Transactional
     public void deleteFromInstitute(String instituteId, String courseId) {
         courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course with id " + courseId + " not found."));
@@ -130,11 +128,19 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course getCourseById(String courseId) {
         Course course = mapper.convertValue(courseRepository.findById(courseId), Course.class);
-        if (course.getTeacherId()!=null){
-            course.setTeacherName(teacherService.searchTeacherById(course.getTeacherId()).getFirstName()+" "+teacherService.searchTeacherById(course.getTeacherId()).getLastName());
-        }else{
-            course.setTeacherId("No Teacher is Added To the Course");
-            course.setTeacherName("No Teacher is Added To the Course");
+        List<Teacher> allTeachers = teacherService.getAllTeachers();
+        for (Teacher teacher: allTeachers){
+            List<Course> registeredCourses = teacher.getRegisteredCourses();
+            for (Course course1:registeredCourses){
+                if (course1.getId().equals(courseId)){
+                    course.setTeacherId(teacher.getId());
+                    course.setTeacherName(teacher.getFirstName()+" "+teacher.getLastName());
+                    break;
+                }else{
+                    course.setTeacherId("No Teacher is Added To the Course");
+                    course.setTeacherName("No Teacher is Added To the Course");
+                }
+            }
         }
         return course;
     }
