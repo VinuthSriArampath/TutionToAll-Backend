@@ -6,7 +6,7 @@ import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
 import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.*;
 import edu.icet.crm.repository.CourseRepository;
-import edu.icet.crm.repository.NativeRepository;
+import edu.icet.crm.repository.custom.NativeRepository;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.CourseService;
 import edu.icet.crm.service.InstituteService;
@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
-
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
@@ -29,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
     private final InstituteService instituteService;
     private final TeacherService teacherService;
     private final TeacherRepository teacherRepository;
-    private final NativeRepository nativeRepository;
+    private final NativeRepository courseNativeRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -115,7 +113,7 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course with id " + courseId + " not found."));
 
-        nativeRepository.unregisterStudentsFromCourse(courseId);
+        courseNativeRepository.unregisterStudentsFromCourse(courseId);
 
         Institute institute = instituteService.getInstituteById(instituteId);
         institute.getCourseList().removeIf(course -> course.getId().equals(courseId));

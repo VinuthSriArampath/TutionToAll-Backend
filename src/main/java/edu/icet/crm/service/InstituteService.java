@@ -23,4 +23,6 @@ public interface InstituteService {
     void addStudent(RegisteredStudents regStudents);
 
     void addTeacher(RegisteredTeachers regTeachers);
+
+    void removeStudentFromInstitute(String instituteId, String studentId);
 }

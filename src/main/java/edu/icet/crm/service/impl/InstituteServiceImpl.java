@@ -4,17 +4,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.InstituteEntity;
 import edu.icet.crm.entity.RegisteredStudentsEntity;
 import edu.icet.crm.entity.RegisteredTeachersEntity;
-import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.repository.InstituteRepository;
+import edu.icet.crm.repository.custom.NativeRepository;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.util.validation.InstituteValidationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class InstituteServiceImpl implements InstituteService {
     private final InstituteRepository instituteRepository;
     private final EmailService emailService;
     private final TeacherRepository teacherRepository;
+    private final NativeRepository NativeRepository;
     InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
     @Override
     public void addTeacher(RegisteredTeachers regTeachers) {
@@ -97,5 +99,10 @@ public class InstituteServiceImpl implements InstituteService {
         return instituteList;
     }
 
+    @Override
+    @Transactional
+    public void removeStudentFromInstitute(String instituteId, String studentId) {
+        NativeRepository.removeStudentFromInstitute(instituteId,studentId);
+    }
 }
 
