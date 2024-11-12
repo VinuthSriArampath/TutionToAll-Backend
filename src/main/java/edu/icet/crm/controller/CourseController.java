@@ -36,7 +36,7 @@ public class CourseController {
         return courseService.getCourseByIdInInstitute(courseId,instituteId);
     }
     @DeleteMapping("/delete/{courseId}/of/{instituteId}")
-    public void deleteCourse(@PathVariable("instituteId") String instituteId,@PathVariable("courseId") String courseId){
+    public void deleteCourse(@PathVariable("courseId") String courseId,@PathVariable("instituteId") String instituteId){
         courseService.deleteFromInstitute(instituteId,courseId);
     }
     @PatchMapping("/update/{instituteId}")

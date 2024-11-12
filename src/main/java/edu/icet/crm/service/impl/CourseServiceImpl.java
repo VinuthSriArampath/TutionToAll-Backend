@@ -6,14 +6,18 @@ import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
 import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.*;
 import edu.icet.crm.repository.CourseRepository;
+import edu.icet.crm.repository.NativeRepository;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.CourseService;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.service.TeacherService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,6 +27,7 @@ public class CourseServiceImpl implements CourseService {
     private final InstituteService instituteService;
     private final TeacherService teacherService;
     private final TeacherRepository teacherRepository;
+    private final NativeRepository nativeRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -99,20 +104,39 @@ public class CourseServiceImpl implements CourseService {
     }
     @Override
     public List<Course> getAllCourses(String instituteId) {
-        return instituteService.getInstituteById(instituteId).getCourseList();
+        List<Course> courseList = instituteService.getInstituteById(instituteId).getCourseList();
+        if (courseList.isEmpty()){
+            return Collections.emptyList();
+        }else {
+            return courseList;
+        }
     }
     @Override
+    @Transactional // Ensures atomic operation
     public void deleteFromInstitute(String instituteId, String courseId) {
+        courseRepository.findById(courseId)
+                .orElseThrow(() -> new EntityNotFoundException("Course with id " + courseId + " not found."));
+
+        nativeRepository.unregisterStudentsFromCourse(courseId);
+
         Institute institute = instituteService.getInstituteById(instituteId);
-        List<Course> courseList = institute.getCourseList();
-        courseList.removeIf(course -> course.getId().equals(courseId));
+        institute.getCourseList().removeIf(course -> course.getId().equals(courseId));
         instituteService.updateInstitute(institute);
-        courseRepository.delete(courseRepository.getReferenceById(courseId));
+
+        courseRepository.flush();
+        courseRepository.deleteById(courseId);
     }
 
     @Override
     public Course getCourseById(String courseId) {
-        return mapper.convertValue(courseRepository.findById(courseId), Course.class);
+        Course course = mapper.convertValue(courseRepository.findById(courseId), Course.class);
+        if (course.getTeacherId()!=null){
+            course.setTeacherName(teacherService.searchTeacherById(course.getTeacherId()).getFirstName()+" "+teacherService.searchTeacherById(course.getTeacherId()).getLastName());
+        }else{
+            course.setTeacherId("No Teacher is Added To the Course");
+            course.setTeacherName("No Teacher is Added To the Course");
+        }
+        return course;
     }
 
     @Override

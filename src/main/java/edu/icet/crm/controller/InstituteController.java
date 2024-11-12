@@ -1,4 +1,3 @@
-// InstituteController.java
 package edu.icet.crm.controller;
 
 import edu.icet.crm.model.Institute;

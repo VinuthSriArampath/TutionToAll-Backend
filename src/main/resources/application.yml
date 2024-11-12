@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/TuitionToAll
+    url: jdbc:mysql://localhost:3306/TuitionToAll?createDatabaseIfNotExist=true
     username: root
     password: 123456
 
