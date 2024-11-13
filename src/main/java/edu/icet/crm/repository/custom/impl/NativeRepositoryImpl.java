@@ -31,4 +31,13 @@ public class NativeRepositoryImpl implements NativeRepository {
         query.executeUpdate();
     }
 
+    @Override
+    @Transactional
+    public void removeTeacherFromInstitute(String instituteId, String teacherId) {
+        String jpql = "DELETE FROM RegisteredTeachersEntity WHERE instituteId = :instituteId AND teacherId = :teacherId";
+        Query query = entityManager.createQuery(jpql);
+        query.setParameter("instituteId", instituteId);
+        query.setParameter("teacherId", teacherId);
+        query.executeUpdate();
+    }
 }

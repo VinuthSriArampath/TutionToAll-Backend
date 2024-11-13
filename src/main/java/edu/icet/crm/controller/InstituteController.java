@@ -64,6 +64,10 @@ public class InstituteController {
     public void removeStudent(@PathVariable("instituteId") String instituteId,@PathVariable("studentId") String studentId){
         instituteService.removeStudentFromInstitute(instituteId,studentId);
     }
+    @DeleteMapping("{instituteId}/teacher/remove/{teacherId}")
+    public void removeTeacher(@PathVariable("instituteId") String instituteId,@PathVariable("teacherId") String teacherId){
+        instituteService.removeTeacherFromInstitute(instituteId,teacherId);
+    }
 
     @PostMapping("/teachers/add")
     public void addTeacher(@RequestBody RegisteredTeachers regTeachers){

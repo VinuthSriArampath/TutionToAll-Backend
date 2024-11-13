@@ -104,5 +104,10 @@ public class InstituteServiceImpl implements InstituteService {
     public void removeStudentFromInstitute(String instituteId, String studentId) {
         NativeRepository.removeStudentFromInstitute(instituteId,studentId);
     }
+
+    @Override
+    public void removeTeacherFromInstitute(String instituteId, String teacherId) {
+        NativeRepository.removeTeacherFromInstitute(instituteId,teacherId);
+    }
 }
 

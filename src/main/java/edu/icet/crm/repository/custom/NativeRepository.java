@@ -10,4 +10,8 @@ public interface NativeRepository{
 
     @Transactional
     void removeStudentFromInstitute(String instituteId, String studentId);
+
+    @Transactional
+    void removeTeacherFromInstitute(String instituteId, String teacherId);
+
 }
