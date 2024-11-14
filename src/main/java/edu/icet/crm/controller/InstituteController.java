@@ -26,6 +26,10 @@ public class InstituteController {
     private final EmailService emailService;
     private final Random random = new Random();
 
+    @GetMapping("/all")
+    public List<Institute> getAllInstitutes(){
+        return instituteService.getAllInstitute();
+    }
     @GetMapping("/search/{id}")
     public Institute searchInstituteById(@PathVariable String id) {
         return instituteService.getInstituteById(id);
@@ -36,15 +40,19 @@ public class InstituteController {
         instituteService.registerInstitutes(institute);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteInstitute(@PathVariable String id) {
-        instituteService.deleteInstitute(id);
-    }
-
     @PatchMapping("/update")
     public void updateInstitute(@RequestBody Institute institute) {
         instituteService.updateInstitute(institute);
     }
+
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteInstitute(@PathVariable String id) {
+        instituteService.deleteInstitute(id);
+    }
+
+
+    // ? Institute otp
 
     @GetMapping("/otp/{email}")
     public int generateOtp(@PathVariable String email) {
@@ -52,10 +60,9 @@ public class InstituteController {
         emailService.sendInstituteOtpEmail(email, "Institute Email Verification",String.valueOf(otp));
         return otp;
     }
-    @GetMapping("/all")
-    public List<Institute> getAllInstitutes(){
-        return instituteService.getAllInstitute();
-    }
+
+    // ? Institute Students
+
     @PostMapping("/students/add")
     public void addStudent(@RequestBody RegisteredStudents regStudents){
         instituteService.addStudent(regStudents);
@@ -64,15 +71,19 @@ public class InstituteController {
     public void removeStudent(@PathVariable("instituteId") String instituteId,@PathVariable("studentId") String studentId){
         instituteService.removeStudentFromInstitute(instituteId,studentId);
     }
-    @DeleteMapping("{instituteId}/teacher/remove/{teacherId}")
-    public void removeTeacher(@PathVariable("instituteId") String instituteId,@PathVariable("teacherId") String teacherId){
-        instituteService.removeTeacherFromInstitute(instituteId,teacherId);
-    }
+
+    // ? Institute Teachers
 
     @PostMapping("/teachers/add")
     public void addTeacher(@RequestBody RegisteredTeachers regTeachers){
         instituteService.addTeacher(regTeachers);
     }
+    @DeleteMapping("{instituteId}/teacher/remove/{teacherId}")
+    public void removeTeacher(@PathVariable("instituteId") String instituteId,@PathVariable("teacherId") String teacherId){
+        instituteService.removeTeacherFromInstitute(instituteId,teacherId);
+    }
+
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

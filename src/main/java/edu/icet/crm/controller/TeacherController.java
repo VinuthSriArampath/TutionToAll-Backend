@@ -14,24 +14,30 @@ import java.util.List;
 @RequestMapping("/teachers")
 public class TeacherController {
     private final TeacherService teacherService;
-    @PostMapping("/register")
-    public void registerStudent(@Valid @RequestBody Teacher teacher){
-        teacherService.registerTeacher(teacher);
+
+    @GetMapping("/all")
+    public List<Teacher> getAllTeachers(){
+        return teacherService.getAllTeachers();
     }
     @GetMapping("/search/{id}")
     public Teacher searchStudentById(@PathVariable String id){
         return teacherService.searchTeacherById(id);
     }
-    @DeleteMapping("/delete/{id}")
-    public void deleteStudent(@PathVariable String id){
-        teacherService.deleteTeacher(id);
+
+    @PostMapping("/register")
+    public void registerStudent(@Valid @RequestBody Teacher teacher){
+        teacherService.registerTeacher(teacher);
     }
+
+
     @PatchMapping("/update")
     public void updateStudent(@RequestBody Teacher teacher){
         teacherService.updateTeacher(teacher);
     }
-    @GetMapping("/all")
-    public List<Teacher> getAllTeachers(){
-        return teacherService.getAllTeachers();
+
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteStudent(@PathVariable String id){
+        teacherService.deleteTeacher(id);
     }
 }

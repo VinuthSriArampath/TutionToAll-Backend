@@ -38,9 +38,11 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void addTeacher(String courseId, String teacherId) {
+    public void addTeacherToCourse(String courseId, String teacherId) {
         TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
-        teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
+        List<CourseEntity> registeredCourses = teacherEntity.getRegisteredCourses();
+        registeredCourses.add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
+        teacherEntity.setRegisteredCourses(registeredCourses);
         teacherRepository.save(teacherEntity);
     }
 
@@ -144,7 +146,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void updateTeacher(String courseId, String teacherId) {
+    public void updateCourseTeacher(String courseId, String teacherId) {
         TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
         teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
         teacherRepository.save(teacherEntity);

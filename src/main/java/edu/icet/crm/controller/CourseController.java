@@ -15,7 +15,27 @@ import java.util.List;
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
+
     private final CourseService courseService;
+
+
+    @GetMapping("/getAll")
+    public List<Course> getAllCourse(){
+        return courseService.getAllCourses();
+    }
+    @GetMapping("/getByCourseId/{courseId}")
+    public Course getCourseById(@PathVariable String courseId){
+        return courseService.getCourseById(courseId);
+    }
+    @GetMapping("/search/{courseId}/institute/{instituteId}")
+    public Course getCourseByInstituteId(@PathVariable("courseId") String courseId,@PathVariable("instituteId") String instituteId){
+        return courseService.getCourseByIdInInstitute(courseId,instituteId);
+    }
+    @GetMapping("/getAll/{instituteId}")
+    public List<Course> getAllCoursesByInstituteId(@PathVariable String instituteId){
+        return courseService.getAllCourses(instituteId);
+    }
+
 
     @PostMapping("/add/{instituteId}")
     public ResponseEntity<String> addCourse(@PathVariable String instituteId, @RequestBody Course course){
@@ -23,40 +43,33 @@ public class CourseController {
         String returnString = "\""+id+"\"";
         return ResponseEntity.ok(returnString);
     }
-    @GetMapping("/getAll/{instituteId}")
-    public List<Course> getCourses(@PathVariable String instituteId){
-        return courseService.getAllCourses(instituteId);
-    }
-    @GetMapping("/getAll")
-    public List<Course> getAllCourse(){
-        return courseService.getAllCourses();
-    }
-    @GetMapping("/search/{courseId}/institute/{instituteId}")
-    public Course getCourseByIdInInstitute(@PathVariable("courseId") String courseId,@PathVariable("instituteId") String instituteId){
-        return courseService.getCourseByIdInInstitute(courseId,instituteId);
-    }
-    @DeleteMapping("/delete/{courseId}/of/{instituteId}")
-    public void deleteCourse(@PathVariable("courseId") String courseId,@PathVariable("instituteId") String instituteId){
-        courseService.deleteFromInstitute(instituteId,courseId);
-    }
+
+
     @PatchMapping("/update/{instituteId}")
     public void updateCourse(@PathVariable String instituteId,@Valid @RequestBody Course course){
         courseService.updateCourse(instituteId,course);
     }
-    @PostMapping("/students/add")
-    public void addStudent(@RequestBody StudentRegisteredCourses studentRegisteredCourses){
+
+    @DeleteMapping("/delete/{courseId}/from/{instituteId}")
+    public void deleteCourse(@PathVariable("courseId") String courseId,@PathVariable("instituteId") String instituteId){
+        courseService.deleteFromInstitute(instituteId,courseId);
+    }
+
+    // ? Course Student Related
+
+    @PostMapping("/student/add")
+    public void addStudentToCourse(@RequestBody StudentRegisteredCourses studentRegisteredCourses){
         courseService.addStudent(studentRegisteredCourses);
     }
-    @PostMapping("/{courseId}/teachers/add/{teacherId}")
-    public void addTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
-        courseService.addTeacher(courseId,teacherId);
+
+    // ? Course Teacher Related
+
+    @PostMapping("/{courseId}/teacher/add/{teacherId}")
+    public void addTeacherToCourse(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
+        courseService.addTeacherToCourse(courseId,teacherId);
     }
     @PatchMapping("/{courseId}/teachers/update/{teacherId}")
-    public void updateTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
-        courseService.updateTeacher(courseId,teacherId);
-    }
-    @GetMapping("/getCourseById/{courseId}")
-    public Course searchCourseById(@PathVariable String courseId){
-        return courseService.getCourseById(courseId);
+    public void updateCourseTeacher(@PathVariable("courseId") String courseId,@PathVariable("teacherId") String teacherId){
+        courseService.updateCourseTeacher(courseId,teacherId);
     }
 }

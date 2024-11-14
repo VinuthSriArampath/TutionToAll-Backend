@@ -1,6 +1,5 @@
 package edu.icet.crm.controller;
 
-import edu.icet.crm.model.Institute;
 import edu.icet.crm.model.Student;
 import edu.icet.crm.service.StudentService;
 import jakarta.validation.Valid;

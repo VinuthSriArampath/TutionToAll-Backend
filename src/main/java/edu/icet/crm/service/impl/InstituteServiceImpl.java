@@ -27,7 +27,7 @@ public class InstituteServiceImpl implements InstituteService {
     private final InstituteRepository instituteRepository;
     private final EmailService emailService;
     private final TeacherRepository teacherRepository;
-    private final NativeRepository NativeRepository;
+    private final NativeRepository nativeRepository;
     InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
     @Override
     public void addTeacher(RegisteredTeachers regTeachers) {
@@ -102,12 +102,12 @@ public class InstituteServiceImpl implements InstituteService {
     @Override
     @Transactional
     public void removeStudentFromInstitute(String instituteId, String studentId) {
-        NativeRepository.removeStudentFromInstitute(instituteId,studentId);
+        nativeRepository.removeStudentFromInstitute(instituteId,studentId);
     }
 
     @Override
     public void removeTeacherFromInstitute(String instituteId, String teacherId) {
-        NativeRepository.removeTeacherFromInstitute(instituteId,teacherId);
+        nativeRepository.removeTeacherFromInstitute(instituteId,teacherId);
     }
 }
 
