@@ -28,4 +28,6 @@ public interface CourseService {
     Course getCourseByIdInInstitute(String courseId, String instituteId);
 
     void updateCourseTeacher(String courseId, String teacherId);
+
+    void removeStudentFromCourse(String courseId, String studentId);
 }

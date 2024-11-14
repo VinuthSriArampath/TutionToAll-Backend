@@ -27,7 +27,7 @@ public class CourseServiceImpl implements CourseService {
     private final InstituteService instituteService;
     private final TeacherService teacherService;
     private final TeacherRepository teacherRepository;
-    private final NativeRepository courseNativeRepository;
+    private final NativeRepository nativeRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -115,12 +115,11 @@ public class CourseServiceImpl implements CourseService {
         courseRepository.findById(courseId)
                 .orElseThrow(() -> new EntityNotFoundException("Course with id " + courseId + " not found."));
 
-        courseNativeRepository.unregisterStudentsFromCourse(courseId);
+        nativeRepository.removeCourseFromRegisteredStudents(courseId);
 
         Institute institute = instituteService.getInstituteById(instituteId);
         institute.getCourseList().removeIf(course -> course.getId().equals(courseId));
         instituteService.updateInstitute(institute);
-
         courseRepository.flush();
         courseRepository.deleteById(courseId);
     }
@@ -150,5 +149,10 @@ public class CourseServiceImpl implements CourseService {
         TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
         teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
         teacherRepository.save(teacherEntity);
+    }
+
+    @Override
+    public void removeStudentFromCourse(String courseId, String studentId) {
+        nativeRepository.removeStudentFromCourse(courseId,studentId);
     }
 }

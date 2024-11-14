@@ -14,9 +14,9 @@ public class NativeRepositoryImpl implements NativeRepository {
 
     @Override
     @Transactional
-    public void unregisterStudentsFromCourse(String courseId) {
-        String jpql = "DELETE FROM StudentRegisteredCoursesEntity WHERE courseId = :courseId";
-        Query query = entityManager.createQuery(jpql);
+    public void removeCourseFromRegisteredStudents(String courseId) {
+        String sql = "DELETE FROM StudentRegisteredCoursesEntity WHERE courseId = :courseId";
+        Query query = entityManager.createQuery(sql);
         query.setParameter("courseId", courseId);
         query.executeUpdate();
     }
@@ -24,8 +24,8 @@ public class NativeRepositoryImpl implements NativeRepository {
     @Override
     @Transactional
     public void removeStudentFromInstitute(String instituteId, String studentId) {
-        String jpql = "DELETE FROM RegisteredStudentsEntity WHERE instituteId = :instituteId AND studentId = :studentId";
-        Query query = entityManager.createQuery(jpql);
+        String sql = "DELETE FROM RegisteredStudentsEntity WHERE instituteId = :instituteId AND studentId = :studentId";
+        Query query = entityManager.createQuery(sql);
         query.setParameter("instituteId", instituteId);
         query.setParameter("studentId", studentId);
         query.executeUpdate();
@@ -34,10 +34,20 @@ public class NativeRepositoryImpl implements NativeRepository {
     @Override
     @Transactional
     public void removeTeacherFromInstitute(String instituteId, String teacherId) {
-        String jpql = "DELETE FROM RegisteredTeachersEntity WHERE instituteId = :instituteId AND teacherId = :teacherId";
-        Query query = entityManager.createQuery(jpql);
+        String sql = "DELETE FROM RegisteredTeachersEntity WHERE instituteId = :instituteId AND teacherId = :teacherId";
+        Query query = entityManager.createQuery(sql);
         query.setParameter("instituteId", instituteId);
         query.setParameter("teacherId", teacherId);
+        query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public void removeStudentFromCourse(String courseId, String studentId) {
+        String sql = "DELETE FROM StudentRegisteredCoursesEntity WHERE courseId = :courseId AND studentId = :studentId";
+        Query query = entityManager.createQuery(sql);
+        query.setParameter("courseId", courseId);
+        query.setParameter("studentId", studentId);
         query.executeUpdate();
     }
 }

@@ -6,7 +6,7 @@ public interface NativeRepository{
 
 
     @Transactional
-    void unregisterStudentsFromCourse(String courseId);
+    void removeCourseFromRegisteredStudents(String courseId);
 
     @Transactional
     void removeStudentFromInstitute(String instituteId, String studentId);
@@ -14,4 +14,6 @@ public interface NativeRepository{
     @Transactional
     void removeTeacherFromInstitute(String instituteId, String teacherId);
 
+    @Transactional
+    void removeStudentFromCourse(String courseId, String studentId);
 }

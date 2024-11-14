@@ -62,6 +62,11 @@ public class CourseController {
         courseService.addStudent(studentRegisteredCourses);
     }
 
+    @DeleteMapping("/{courseId}/remove/student/{studentId}")
+    public void  removeStudentFromCourse(@PathVariable("courseId") String courseId,@PathVariable("studentId") String studentId){
+        courseService.removeStudentFromCourse(courseId,studentId);
+    }
+
     // ? Course Teacher Related
 
     @PostMapping("/{courseId}/teacher/add/{teacherId}")
