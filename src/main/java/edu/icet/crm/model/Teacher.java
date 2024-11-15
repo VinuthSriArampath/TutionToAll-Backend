@@ -23,6 +23,5 @@ public class Teacher {
     private String password;
     private List<RegisteredTeachers> registeredInstitutes;
     private List<Course> registeredCourses;
-    private List<Assignment> managedAssignmentList;
     private List<Note> managedNoteList;
 }

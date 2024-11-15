@@ -20,11 +20,17 @@ public class AssignmentEntity {
     @Column(name = "assignment_id")
     private String id;
 
+    @Column(name = "course_id")
+    private String courseId;
+
     @Column(name = "assignment_name")
     private String assignmentName;
 
     @Column(name = "assignment_due_date")
     private LocalDate dueDate;
+
+    @Column(name = "assignment_path")
+    private String path;
 
     @OneToMany(mappedBy = "assignment",cascade = CascadeType.ALL)
     private List<StudentAssignmentSubmissionEntity> submittedList;

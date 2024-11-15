@@ -14,9 +14,9 @@ import java.util.List;
 @ToString
 public class Assignment {
     private String id;
+    private String courseId;
     private String assignmentName;
     private LocalDate dueDate;
-    private Teacher teacher;
-    private Course course;
+    private String path;
     private List<StudentAssignmentSubmission> submittedList;
 }
