@@ -18,3 +18,5 @@ spring:
   web:
     resources:
       static-locations: file:./assignments/
+
+
