@@ -19,4 +19,5 @@ public class Course {
     private String teacherName;
     private List<StudentRegisteredCourses> studentCoursesList;
     private List<Assignment> assignmentList;
+    private List<Note> noteList;
 }

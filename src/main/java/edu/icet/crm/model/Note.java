@@ -11,6 +11,7 @@ import lombok.ToString;
 @ToString
 public class Note {
     private String id;
+    private String courseId;
     private String title;
-    private Teacher teacher;
+    private String path;
 }

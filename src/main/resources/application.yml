@@ -17,6 +17,8 @@ spring:
 
   web:
     resources:
-      static-locations: file:./assignments/
+      static-locations:
+        - file:./assignments/
+        - file:./notes/
 
 

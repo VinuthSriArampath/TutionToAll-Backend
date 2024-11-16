@@ -32,4 +32,8 @@ public class CourseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "course_id",referencedColumnName = "course_id")
     private List<AssignmentEntity> assignmentList;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id",referencedColumnName = "course_id")
+    private List<NoteEntity> notesList;
 }
