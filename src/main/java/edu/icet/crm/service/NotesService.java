@@ -1,6 +1,7 @@
 package edu.icet.crm.service;
 
 import edu.icet.crm.model.Note;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -12,4 +13,6 @@ public interface NotesService {
     List<Note> getAllNotes();
 
     List<Note> getAllNotesByCourseId(String courseId);
+
+    ResponseEntity<byte[]> getDocumentByNoteId(String noteId);
 }

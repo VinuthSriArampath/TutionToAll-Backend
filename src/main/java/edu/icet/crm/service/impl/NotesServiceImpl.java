@@ -6,6 +6,10 @@ import edu.icet.crm.model.Note;
 import edu.icet.crm.repository.NotesRepository;
 import edu.icet.crm.service.NotesService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +20,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -68,5 +73,29 @@ public class NotesServiceImpl implements NotesService {
             if (note.getCourseId().equals(courseId)) allNOteListById.add(note);
         });
         return allNOteListById;
+    }
+
+    @Override
+    public ResponseEntity<byte[]> getDocumentByNoteId(String noteId) {
+        Optional<NoteEntity> optionalNoteEntity = notesRepository.findById(noteId);
+        if (optionalNoteEntity.isPresent()) {
+            NoteEntity noteEntity = optionalNoteEntity.get();
+            Path filePath = Paths.get(noteEntity.getPath());
+
+            try {
+                byte[] content = Files.readAllBytes(filePath);
+
+                String contentType = Files.probeContentType(filePath);
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.parseMediaType(contentType));
+                headers.setContentDispositionFormData("attachment", filePath.getFileName().toString());
+
+                return new ResponseEntity<>(content, headers, HttpStatus.OK);
+
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to read file from path: " + filePath, e);
+            }
+        }
+        throw new RuntimeException("Assignment with ID " + noteId + " not found.");
     }
 }

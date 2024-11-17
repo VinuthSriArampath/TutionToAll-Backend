@@ -80,17 +80,15 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     @Override
     public ResponseEntity<byte[]> getDocumentByAssignmentId(String assignmentId) {
-        // Retrieve the assignment entity by ID
+
         Optional<AssignmentEntity> optionalAssignmentEntity = assignmentRepository.findById(assignmentId);
         if (optionalAssignmentEntity.isPresent()) {
             AssignmentEntity assignmentEntity = optionalAssignmentEntity.get();
             Path filePath = Paths.get(assignmentEntity.getPath());
 
             try {
-                // Read file content as byte array
                 byte[] content = Files.readAllBytes(filePath);
 
-                // Set the content type header
                 String contentType = Files.probeContentType(filePath);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.parseMediaType(contentType));
