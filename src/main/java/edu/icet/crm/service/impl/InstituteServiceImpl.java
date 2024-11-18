@@ -4,19 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.InstituteEntity;
 import edu.icet.crm.entity.RegisteredStudentsEntity;
 import edu.icet.crm.entity.RegisteredTeachersEntity;
-import edu.icet.crm.model.Institute;
-import edu.icet.crm.model.RegisteredStudents;
-import edu.icet.crm.model.RegisteredTeachers;
+import edu.icet.crm.model.*;
 import edu.icet.crm.repository.InstituteRepository;
 import edu.icet.crm.repository.custom.NativeRepository;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
-import edu.icet.crm.util.validation.InstituteValidationUtil;
+import edu.icet.crm.util.Encryptor;
+import edu.icet.crm.util.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,7 @@ public class InstituteServiceImpl implements InstituteService {
     private final EmailService emailService;
     private final TeacherRepository teacherRepository;
     private final NativeRepository nativeRepository;
-    InstituteValidationUtil instituteValidator = InstituteValidationUtil.getInstance();
+    private final Encryptor encryptor;
     @Override
     public void addTeacher(RegisteredTeachers regTeachers) {
         teacherRepository.findById(regTeachers.getTeacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
@@ -63,15 +65,15 @@ public class InstituteServiceImpl implements InstituteService {
     public void registerInstitutes(Institute institute) {
         String id = generateInstituteId();
         institute.setId(id);
-        InstituteEntity instituteEntity = mapper.convertValue(institute, InstituteEntity.class);
-        if (Boolean.TRUE.equals(instituteValidator.validateInstitute(instituteEntity))){
-            try {
-                instituteRepository.save(instituteEntity);
-                emailService.sendInstituteRegistrationSuccessful(instituteEntity.getEmail(),"Registration Successful",id,instituteEntity.getName());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            institute.setPassword(encryptor.encryptString(institute.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
+        InstituteEntity instituteEntity = mapper.convertValue(institute, InstituteEntity.class);
+        instituteRepository.save(instituteEntity);
+        emailService.sendInstituteRegistrationSuccessful(instituteEntity.getEmail(),"Registration Successful",id,instituteEntity.getName());
+
     }
 
     @Override
@@ -86,6 +88,11 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public void updateInstitute(Institute institute) {
+        try {
+            institute.setPassword(encryptor.encryptString(institute.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         instituteRepository.save(mapper.convertValue(institute,InstituteEntity.class));
     }
 
@@ -108,6 +115,23 @@ public class InstituteServiceImpl implements InstituteService {
     @Override
     public void removeTeacherFromInstitute(String instituteId, String teacherId) {
         nativeRepository.removeTeacherFromInstitute(instituteId,teacherId);
+    }
+
+    @Override
+    public ResponseEntity<ResponseMessage> authenticateInstituteLogin(LoginUser loginUser) {
+        Institute institute = getInstituteById(loginUser.getUserName());
+        if (institute == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid UserName"));
+        }
+        try {
+            if (encryptor.encryptString(loginUser.getPassword()).equals(institute.getPassword())) {
+                return ResponseEntity.ok(new ResponseMessage("Login Successful"));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid Password"));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Backend Server Has An Error"));
+        }
     }
 }
 

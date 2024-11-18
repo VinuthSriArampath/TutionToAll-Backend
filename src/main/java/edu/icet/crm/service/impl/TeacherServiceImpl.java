@@ -2,12 +2,19 @@ package edu.icet.crm.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.TeacherEntity;
+import edu.icet.crm.model.LoginUser;
+import edu.icet.crm.model.Student;
 import edu.icet.crm.model.Teacher;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.TeacherService;
+import edu.icet.crm.util.Encryptor;
+import edu.icet.crm.util.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 @RequiredArgsConstructor
@@ -15,9 +22,15 @@ import java.util.List;
 public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
     private final ObjectMapper mapper;
+    private final Encryptor encryptor;
     @Override
     public void registerTeacher(Teacher teacher) {
         teacher.setId(generateTeacherId());
+        try {
+            teacher.setPassword(encryptor.encryptString(teacher.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         teacherRepository.save(mapper.convertValue(teacher, TeacherEntity.class));
     }
 
@@ -59,7 +72,28 @@ public class TeacherServiceImpl implements TeacherService {
         teacherEntity.setDob(teacher.getDob());
         teacherEntity.setEmail(teacher.getEmail());
         teacherEntity.setAddress(teacher.getAddress());
-        teacherEntity.setPassword(teacher.getPassword());
+        try {
+            teacherEntity.setPassword(encryptor.encryptString(teacher.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
         teacherRepository.save(teacherEntity);
+    }
+
+    @Override
+    public ResponseEntity<ResponseMessage> authenticateTeacherLogin(LoginUser loginUser) {
+        Teacher teacher = searchTeacherById(loginUser.getUserName());
+        if (teacher == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid UserName"));
+        }
+        try {
+            if (encryptor.encryptString(loginUser.getPassword()).equals(teacher.getPassword())) {
+                return ResponseEntity.ok(new ResponseMessage("Login Successful"));
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseMessage("Invalid Password"));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Backend Server Has An Error"));
+        }
     }
 }
