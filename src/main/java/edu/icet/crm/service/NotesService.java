@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface NotesService {
     void addNoteToCourse(Note note, MultipartFile file) throws IOException;
+
     String generateNoteId();
+
     List<Note> getAllNotes();
 
     List<Note> getAllNotesByCourseId(String courseId);

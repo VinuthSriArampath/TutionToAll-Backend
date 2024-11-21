@@ -27,29 +27,6 @@ import java.util.Optional;
 public class NotesServiceImpl implements NotesService {
     private final NotesRepository notesRepository;
     private final ObjectMapper mapper;
-    @Override
-    public void addNoteToCourse(Note note, MultipartFile file) throws IOException {
-        NoteEntity noteEntity = mapper.convertValue(note, NoteEntity.class);
-        String uploadDir = System.getProperty("user.dir") + "/notes";
-
-        Path uploadPath= Paths.get(uploadDir);
-        if(!Files.exists(uploadPath)){
-            Files.createDirectories(uploadPath);
-        }
-        String originalFilename = file.getOriginalFilename();
-        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-
-        long currentTimeMillis = System.currentTimeMillis();
-        String id = generateNoteId();
-        String filename = currentTimeMillis + "_" + id + fileExtension;
-
-        Path filePath = uploadPath.resolve(filename);
-        Files.copy(file.getInputStream(),filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        noteEntity.setId(id);
-        noteEntity.setPath(filePath.toString());
-        notesRepository.save(noteEntity);
-    }
 
     @Override
     public String generateNoteId() {
@@ -102,5 +79,29 @@ public class NotesServiceImpl implements NotesService {
             }
         }
         throw new RuntimeException("Assignment with ID " + noteId + " not found.");
+    }
+
+    @Override
+    public void addNoteToCourse(Note note, MultipartFile file) throws IOException {
+        NoteEntity noteEntity = mapper.convertValue(note, NoteEntity.class);
+        String uploadDir = System.getProperty("user.dir") + "/notes";
+
+        Path uploadPath= Paths.get(uploadDir);
+        if(!Files.exists(uploadPath)){
+            Files.createDirectories(uploadPath);
+        }
+        String originalFilename = file.getOriginalFilename();
+        String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+
+        long currentTimeMillis = System.currentTimeMillis();
+        String id = generateNoteId();
+        String filename = currentTimeMillis + "_" + id + fileExtension;
+
+        Path filePath = uploadPath.resolve(filename);
+        Files.copy(file.getInputStream(),filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        noteEntity.setId(id);
+        noteEntity.setPath(filePath.toString());
+        notesRepository.save(noteEntity);
     }
 }
