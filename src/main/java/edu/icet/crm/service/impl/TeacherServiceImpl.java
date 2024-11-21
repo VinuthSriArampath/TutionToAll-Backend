@@ -3,7 +3,6 @@ package edu.icet.crm.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.crm.entity.TeacherEntity;
 import edu.icet.crm.model.LoginUser;
-import edu.icet.crm.model.Student;
 import edu.icet.crm.model.Teacher;
 import edu.icet.crm.repository.TeacherRepository;
 import edu.icet.crm.service.EmailService;

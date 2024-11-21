@@ -18,15 +18,22 @@ public class AuthenticateController {
     private final TeacherService teacherService;
     private final InstituteService instituteService;
 
+    // ! Student Login Authentication
+
     @PostMapping("/student/login")
     public ResponseEntity<ResponseMessage> authenticateStudent(@RequestBody LoginUser loginUser){
         return studentService.authenticateStudentLogin(loginUser);
     }
 
+    // ! Teacher Login Authentication
+
     @PostMapping("/teacher/login")
     public ResponseEntity<ResponseMessage> authenticateTeacher(@RequestBody LoginUser loginUser){
         return teacherService.authenticateTeacherLogin(loginUser);
     }
+
+    // ! Institute Login Authentication
+
     @PostMapping("/institute/login")
     public ResponseEntity<ResponseMessage> authenticateInstitute(@RequestBody LoginUser loginUser){
         return instituteService.authenticateInstituteLogin(loginUser);

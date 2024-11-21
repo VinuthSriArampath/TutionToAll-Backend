@@ -17,20 +17,26 @@ import java.util.List;
 public class AssignmentController {
     private final AssignmentService assignmentService;
 
-    @GetMapping("/all")
+    // ? GET parameters
+
+    @GetMapping("/all") // -! Get All Assignments
     public List<Assignment> getAllAssignments(){
         return assignmentService.allAssignment();
     }
-    @GetMapping("/all/byCourseId/{courseId}")
+
+    @GetMapping("/all/byCourseId/{courseId}")// -! Get All Assignments by Course id
     public List<Assignment> getAllAssignmentsByCourseId(@PathVariable String courseId){
         return  assignmentService.getAllAssignmentsByCourseId(courseId);
     }
-    @GetMapping("/getDocumentByAssignmentId/{assignmentId}")
+
+    @GetMapping("/getDocumentByAssignmentId/{assignmentId}")// -! Get the Document by assignment id
     public ResponseEntity<byte[]> getDocumentByAssignmentId(@PathVariable String assignmentId) throws IOException {
         return assignmentService.getDocumentByAssignmentId(assignmentId);
     }
 
-    @PostMapping("/add")
+    // ? POST parameters
+
+    @PostMapping("/add")// -! Add an assignment to the course
     public void addAssignment(@RequestPart("assignment") Assignment assignment, @RequestPart("document") MultipartFile file) throws IOException {
         assignmentService.addAssignment(assignment, file);
     }
