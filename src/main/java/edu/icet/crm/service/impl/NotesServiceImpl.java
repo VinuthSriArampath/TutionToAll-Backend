@@ -54,6 +54,11 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public String generateNoteId() {
         List<Note> allNotes = getAllNotes();
+        allNotes.sort((nt1, nt2)->{
+            int id1 = Integer.parseInt(nt1.getId().split("Not")[1]);
+            int id2 = Integer.parseInt(nt2.getId().split("Not")[1]);
+            return Integer.compare(id1,id2);
+        });
         int idNum=allNotes.isEmpty() ? 1 : Integer.parseInt(allNotes.get(allNotes.size()-1).getId().split("Not")[1])+1;
         return "Not"+idNum;
     }
