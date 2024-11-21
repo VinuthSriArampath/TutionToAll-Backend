@@ -5,16 +5,10 @@ import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @CrossOrigin
@@ -24,76 +18,68 @@ import java.util.Random;
 public class InstituteController {
     private final InstituteService instituteService;
     private final EmailService emailService;
-    private final Random random = new Random();
+    private final Random random = new Random(); // ! USES IN THE OTP SENDING
 
-    @GetMapping("/all")
+    // ? GET parameters
+    @GetMapping("/all") // -! GET ALL INSTITUTIONS
     public List<Institute> getAllInstitutes(){
         return instituteService.getAllInstitute();
     }
-    @GetMapping("/search/{id}")
+    @GetMapping("/search/{id}") // -! GET AN INSTITUTE BY ID
     public Institute searchInstituteById(@PathVariable String id) {
         return instituteService.getInstituteById(id);
     }
 
-    @PostMapping("/register")
-    public void registerInstitute(@Valid @RequestBody Institute institute) {
+    // ? POST parameters
+
+    @PostMapping("/register") // -! REGISTER AN INSTITUTE
+    public void registerInstitute(@RequestBody Institute institute) {
         instituteService.registerInstitutes(institute);
     }
 
-    @PatchMapping("/update")
+    // ? PATCH parameters
+
+    @PatchMapping("/update") // -! UPDATE AN INSTITUTE
     public void updateInstitute(@RequestBody Institute institute) {
         instituteService.updateInstitute(institute);
     }
 
+    // ? DELETE parameters
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}") // -! DELETE AN INSTITUTE
     public void deleteInstitute(@PathVariable String id) {
         instituteService.deleteInstitute(id);
     }
 
 
-    // ? Institute otp
+    // ! Institute OTP SENDING..
 
-    @GetMapping("/otp/{email}")
+    @GetMapping("/otp/{email}") // -! SENDS THE OTP TO INSTITUTE EMAIL
     public int generateOtp(@PathVariable String email) {
-        int otp = random.nextInt(100000, 999999);
+        int otp = random.nextInt(100000, 999999); // ! GENERATES THE RANDOM NUMBER WHICH IS THE OTP NUMBER
         emailService.sendInstituteOtpEmail(email, "Institute Email Verification",String.valueOf(otp));
         return otp;
     }
 
-    // ? Institute Students
+    // ?  Institute Students
 
-    @PostMapping("/students/add")
+    @PostMapping("/students/add") // -! ADD A STUDENTS TO THE INSTITUTE
     public void addStudent(@RequestBody RegisteredStudents regStudents){
         instituteService.addStudent(regStudents);
     }
-    @DeleteMapping("{instituteId}/students/remove/{studentId}")
+    @DeleteMapping("{instituteId}/students/remove/{studentId}") // -! REMOVE THE STUDENT FORM THE INSTITUTE
     public void removeStudent(@PathVariable("instituteId") String instituteId,@PathVariable("studentId") String studentId){
         instituteService.removeStudentFromInstitute(instituteId,studentId);
     }
 
     // ? Institute Teachers
 
-    @PostMapping("/teachers/add")
+    @PostMapping("/teachers/add")// -! ADD A TEACHER TO THE INSTITUTE
     public void addTeacher(@RequestBody RegisteredTeachers regTeachers){
         instituteService.addTeacher(regTeachers);
     }
-    @DeleteMapping("{instituteId}/teacher/remove/{teacherId}")
+    @DeleteMapping("{instituteId}/teacher/remove/{teacherId}")// -! REMOVE THE TEACHER FORM THE INSTITUTE
     public void removeTeacher(@PathVariable("instituteId") String instituteId,@PathVariable("teacherId") String teacherId){
         instituteService.removeTeacherFromInstitute(instituteId,teacherId);
-    }
-
-
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
     }
 }
