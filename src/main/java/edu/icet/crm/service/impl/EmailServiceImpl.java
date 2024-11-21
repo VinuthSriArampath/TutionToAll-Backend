@@ -4,6 +4,8 @@ import edu.icet.crm.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.juli.logging.Log;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 
@@ -18,6 +20,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
@@ -37,7 +40,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             mailSender.send(message);
         } catch (MailException e) {
-            throw new MessagingException("Failed to send email", e);
+            log.error("Failed to send email", e);
         }
     }
     @Override
@@ -50,7 +53,7 @@ public class EmailServiceImpl implements EmailService {
             sendHtmlEmail(to, subject, "InstituteOtpMail", templateModel);
 
         } catch (MessagingException e) {
-            System.out.println(" Email Sending failed");
+            log.error("Failed to send email", e);
         }
     }
 
@@ -64,7 +67,20 @@ public class EmailServiceImpl implements EmailService {
             sendHtmlEmail(to, subject, "InstituteRegisteredSuccessfullyMail", templateModel);
 
         } catch (MessagingException e) {
-            System.out.println(" Email Sending failed");
+            log.error("Failed to send email", e);
+        }
+    }
+
+    @Override
+    public void sentTeacherRegistrationSuccessful(String to, String subject, String userName) {
+        try {
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("userName", userName);
+
+            sendHtmlEmail(to, subject, "InstituteRegisteredSuccessfullyMail", templateModel);
+
+        } catch (MessagingException e) {
+            log.error("Failed to send email", e);
         }
     }
 }

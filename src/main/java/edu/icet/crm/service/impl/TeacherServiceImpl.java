@@ -6,6 +6,7 @@ import edu.icet.crm.model.LoginUser;
 import edu.icet.crm.model.Student;
 import edu.icet.crm.model.Teacher;
 import edu.icet.crm.repository.TeacherRepository;
+import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.TeacherService;
 import edu.icet.crm.util.Encryptor;
 import edu.icet.crm.util.ResponseMessage;
@@ -23,6 +24,7 @@ public class TeacherServiceImpl implements TeacherService {
     private final TeacherRepository teacherRepository;
     private final ObjectMapper mapper;
     private final Encryptor encryptor;
+    private final EmailService emailService;
     @Override
     public void registerTeacher(Teacher teacher) {
         teacher.setId(generateTeacherId());
@@ -32,6 +34,7 @@ public class TeacherServiceImpl implements TeacherService {
             throw new RuntimeException(e);
         }
         teacherRepository.save(mapper.convertValue(teacher, TeacherEntity.class));
+        emailService.sentTeacherRegistrationSuccessful(teacher.getEmail(),"Successfully Registered To TuitionToAll",teacher.getId());
     }
 
     @Override
