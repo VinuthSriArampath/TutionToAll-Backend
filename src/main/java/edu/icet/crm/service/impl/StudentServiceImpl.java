@@ -5,6 +5,7 @@ import edu.icet.crm.entity.StudentEntity;
 import edu.icet.crm.entity.StudentRegisteredCoursesEntity;
 import edu.icet.crm.model.*;
 import edu.icet.crm.repository.StudentRepository;
+import edu.icet.crm.service.EmailService;
 import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.service.StudentService;
 import edu.icet.crm.util.Encryptor;
@@ -23,6 +24,7 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final InstituteService instituteService;
+    private final EmailService emailService;
     private final ObjectMapper mapper;
     private final Encryptor encryptor;
 
@@ -76,6 +78,7 @@ public class StudentServiceImpl implements StudentService {
             throw new RuntimeException(e);
         }
         studentRepository.save(mapper.convertValue(student, StudentEntity.class));
+        emailService.sentStudentRegistrationSuccessful(student.getEmail(),"Registration Successful",student.getId());
     }
 
     @Override

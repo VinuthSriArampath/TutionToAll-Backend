@@ -67,7 +67,7 @@ public class EmailServiceImpl implements EmailService {
             sendHtmlEmail(to, subject, "InstituteRegisteredSuccessfullyMail", templateModel);
 
         } catch (MessagingException e) {
-            log.error("Failed to send email", e);
+            log.error("Failed to send email in institute registration", e);
         }
     }
 
@@ -77,7 +77,20 @@ public class EmailServiceImpl implements EmailService {
             Map<String, Object> templateModel = new HashMap<>();
             templateModel.put("userName", userName);
 
-            sendHtmlEmail(to, subject, "InstituteRegisteredSuccessfullyMail", templateModel);
+            sendHtmlEmail(to, subject, "TeacherRegisteredSuccessfullyMail", templateModel);
+
+        } catch (MessagingException e) {
+            log.error("Failed to send email in teacher registration", e);
+        }
+    }
+
+    @Override
+    public void sentStudentRegistrationSuccessful(String to, String subject, String userName) {
+        try {
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("userName", userName);
+
+            sendHtmlEmail(to, subject, "StudentRegisteredSuccessfullyMail", templateModel);
 
         } catch (MessagingException e) {
             log.error("Failed to send email", e);
