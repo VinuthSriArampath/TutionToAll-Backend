@@ -24,29 +24,6 @@ public class TeacherServiceImpl implements TeacherService {
     private final ObjectMapper mapper;
     private final Encryptor encryptor;
     private final EmailService emailService;
-    @Override
-    public void registerTeacher(Teacher teacher) {
-        teacher.setId(generateTeacherId());
-        try {
-            teacher.setPassword(encryptor.encryptString(teacher.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        teacherRepository.save(mapper.convertValue(teacher, TeacherEntity.class));
-        emailService.sentTeacherRegistrationSuccessful(teacher.getEmail(),"Successfully Registered To TuitionToAll",teacher.getId());
-    }
-
-    @Override
-    public Teacher searchTeacherById(String teacherId) {
-        return mapper.convertValue(teacherRepository.findById(teacherId), Teacher.class);
-    }
-
-    @Override
-    public List<Teacher> getAllTeachers() {
-        List<Teacher> allTeachers = new ArrayList<>();
-        teacherRepository.findAll().forEach(teacherEntity -> allTeachers.add(mapper.convertValue(teacherEntity, Teacher.class)));
-        return allTeachers;
-    }
 
     @Override
     public String generateTeacherId() {
@@ -61,9 +38,29 @@ public class TeacherServiceImpl implements TeacherService {
     }
 
     @Override
-    public void deleteTeacher(String teacherId) {
-        teacherRepository.deleteById(teacherId);
+    public List<Teacher> getAllTeachers() {
+        List<Teacher> allTeachers = new ArrayList<>();
+        teacherRepository.findAll().forEach(teacherEntity -> allTeachers.add(mapper.convertValue(teacherEntity, Teacher.class)));
+        return allTeachers;
     }
+
+    @Override
+    public Teacher searchTeacherById(String teacherId) {
+        return mapper.convertValue(teacherRepository.findById(teacherId), Teacher.class);
+    }
+
+    @Override
+    public void registerTeacher(Teacher teacher) {
+        teacher.setId(generateTeacherId());
+        try {
+            teacher.setPassword(encryptor.encryptString(teacher.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        teacherRepository.save(mapper.convertValue(teacher, TeacherEntity.class));
+        emailService.sentTeacherRegistrationSuccessful(teacher.getEmail(),"Successfully Registered To TuitionToAll",teacher.getId());
+    }
+
 
     @Override
     public void updateTeacher(Teacher teacher) {
@@ -80,6 +77,11 @@ public class TeacherServiceImpl implements TeacherService {
             throw new RuntimeException(e);
         }
         teacherRepository.save(teacherEntity);
+    }
+
+    @Override
+    public void deleteTeacher(String teacherId) {
+        teacherRepository.deleteById(teacherId);
     }
 
     @Override
