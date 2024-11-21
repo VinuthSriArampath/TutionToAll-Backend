@@ -31,41 +31,6 @@ public class CourseServiceImpl implements CourseService {
     private final ObjectMapper mapper;
 
     @Override
-    public void addStudent(StudentRegisteredCourses studentRegisteredCourses) {
-        CourseEntity courseEntity = mapper.convertValue(courseRepository.findById(studentRegisteredCourses.getCourseId()), CourseEntity.class);
-        courseEntity.getStudentCoursesList().add(mapper.convertValue(studentRegisteredCourses, StudentRegisteredCoursesEntity.class));
-        courseRepository.save(courseEntity);
-    }
-
-    @Override
-    public void addTeacherToCourse(String courseId, String teacherId) {
-        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
-        List<CourseEntity> registeredCourses = teacherEntity.getRegisteredCourses();
-        registeredCourses.add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
-        teacherEntity.setRegisteredCourses(registeredCourses);
-        teacherRepository.save(teacherEntity);
-    }
-
-    @Override
-    public Course getCourseByIdInInstitute(String courseId, String instituteId) {
-        Institute institute = instituteService.getInstituteById(instituteId);
-        List<Course> courseList = institute.getCourseList();
-        for (Course course:courseList){
-            if (course.getId().equals(courseId)){
-                return getCourseById(courseId);
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public List<Course> getAllCourses() {
-        List<Course> allCourseList=new ArrayList<>();
-        courseRepository.findAll().forEach(courseEntity -> allCourseList.add(mapper.convertValue(courseEntity, Course.class)));
-        return allCourseList;
-    }
-
-    @Override
     public String generateCourseId() {
         List<Course> allCourses = getAllCourses();
         allCourses.sort((cos1, cos2)->{
@@ -78,29 +43,6 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void updateCourse(String instituteId, Course course) {
-        Institute institute = instituteService.getInstituteById(instituteId);
-        List<Course> courseList = institute.getCourseList();
-        courseList.forEach(courseFromList ->{
-            if (courseFromList.getId().equals(course.getId())){
-                courseFromList.setName(course.getName());
-                courseFromList.setType(course.getType());
-            }
-        } );
-        instituteService.updateInstitute(institute);
-    }
-
-
-    @Override
-    public String addCourse(String instituteId, Course course) {
-        Institute institute = instituteService.getInstituteById(instituteId);
-        String id = generateCourseId();
-        course.setId(id);
-        institute.getCourseList().add(course);
-        instituteService.updateInstitute(institute);
-        return id;
-    }
-    @Override
     public List<Course> getAllCourses(String instituteId) {
         List<Course> courseList = instituteService.getInstituteById(instituteId).getCourseList();
         if (courseList.isEmpty()){
@@ -109,19 +51,12 @@ public class CourseServiceImpl implements CourseService {
             return courseList;
         }
     }
+
     @Override
-    @Transactional
-    public void deleteFromInstitute(String instituteId, String courseId) {
-        courseRepository.findById(courseId)
-                .orElseThrow(() -> new EntityNotFoundException("Course with id " + courseId + " not found."));
-
-        nativeRepository.removeCourseFromRegisteredStudents(courseId);
-
-        Institute institute = instituteService.getInstituteById(instituteId);
-        institute.getCourseList().removeIf(course -> course.getId().equals(courseId));
-        instituteService.updateInstitute(institute);
-        courseRepository.flush();
-        courseRepository.deleteById(courseId);
+    public List<Course> getAllCourses() {
+        List<Course> allCourseList=new ArrayList<>();
+        courseRepository.findAll().forEach(courseEntity -> allCourseList.add(mapper.convertValue(courseEntity, Course.class)));
+        return allCourseList;
     }
 
     @Override
@@ -145,14 +80,79 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public void updateCourseTeacher(String courseId, String teacherId) {
-        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
-        teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
-        teacherRepository.save(teacherEntity);
+    public Course getCourseByIdInInstitute(String courseId, String instituteId) {
+        Institute institute = instituteService.getInstituteById(instituteId);
+        List<Course> courseList = institute.getCourseList();
+        for (Course course:courseList){
+            if (course.getId().equals(courseId)){
+                return getCourseById(courseId);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String addCourse(String instituteId, Course course) {
+        Institute institute = instituteService.getInstituteById(instituteId);
+        String id = generateCourseId();
+        course.setId(id);
+        institute.getCourseList().add(course);
+        instituteService.updateInstitute(institute);
+        return id;
+    }
+
+    @Override
+    public void updateCourse(String instituteId, Course course) {
+        Institute institute = instituteService.getInstituteById(instituteId);
+        List<Course> courseList = institute.getCourseList();
+        courseList.forEach(courseFromList ->{
+            if (courseFromList.getId().equals(course.getId())){
+                courseFromList.setName(course.getName());
+                courseFromList.setType(course.getType());
+            }
+        } );
+        instituteService.updateInstitute(institute);
+    }
+
+    @Override
+    @Transactional
+    public void deleteFromInstitute(String instituteId, String courseId) {
+        courseRepository.findById(courseId).orElseThrow(() -> new EntityNotFoundException("Course with id " + courseId + " not found."));
+        nativeRepository.removeCourseFromRegisteredStudents(courseId);
+        Institute institute = instituteService.getInstituteById(instituteId);
+        institute.getCourseList().removeIf(course -> course.getId().equals(courseId));
+        instituteService.updateInstitute(institute);
+        courseRepository.flush();
+        courseRepository.deleteById(courseId);
+    }
+
+
+    @Override
+    public void addStudent(StudentRegisteredCourses studentRegisteredCourses) {
+        CourseEntity courseEntity = mapper.convertValue(courseRepository.findById(studentRegisteredCourses.getCourseId()), CourseEntity.class);
+        courseEntity.getStudentCoursesList().add(mapper.convertValue(studentRegisteredCourses, StudentRegisteredCoursesEntity.class));
+        courseRepository.save(courseEntity);
     }
 
     @Override
     public void removeStudentFromCourse(String courseId, String studentId) {
         nativeRepository.removeStudentFromCourse(courseId,studentId);
+    }
+
+    @Override
+    public void addTeacherToCourse(String courseId, String teacherId) {
+        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
+        List<CourseEntity> registeredCourses = teacherEntity.getRegisteredCourses();
+        registeredCourses.add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
+        teacherEntity.setRegisteredCourses(registeredCourses);
+        teacherRepository.save(teacherEntity);
+    }
+
+
+    @Override
+    public void updateCourseTeacher(String courseId, String teacherId) {
+        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
+        teacherEntity.getRegisteredCourses().add(mapper.convertValue(courseRepository.findById(courseId), CourseEntity.class));
+        teacherRepository.save(teacherEntity);
     }
 }
