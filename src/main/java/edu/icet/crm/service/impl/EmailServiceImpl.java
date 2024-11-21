@@ -52,7 +52,7 @@ public class EmailServiceImpl implements EmailService {
             sendHtmlEmail(to, subject, "InstituteOtpMail", templateModel);
 
         } catch (MessagingException e) {
-            log.error("Failed to send email", e);
+            log.error("Failed to send otp email", e);
         }
     }
 
