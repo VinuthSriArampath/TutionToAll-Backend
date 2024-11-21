@@ -16,20 +16,24 @@ import java.util.List;
 public class NotesController {
     private final NotesService notesService;
 
-    @GetMapping("/all")
+    // ? GET parameters
+
+    @GetMapping("/all")// -! Get All NOTES
     public List<Note> getAllAssignments(){
         return notesService.getAllNotes();
     }
-    @GetMapping("/all/byCourseId/{courseId}")
+    @GetMapping("/all/byCourseId/{courseId}")// -! Get All NOTES by Course id
     public List<Note> getAllAssignmentsByCourseId(@PathVariable String courseId){
         return  notesService.getAllNotesByCourseId(courseId);
     }
-    @GetMapping("/getDocumentByNoteId/{noteId}")
+    @GetMapping("/getDocumentByNoteId/{noteId}")// -! Get the Document by NOTE id
     public ResponseEntity<byte[]> getDocumentByNoteId(@PathVariable String noteId){
         return  notesService.getDocumentByNoteId(noteId);
     }
 
-    @PostMapping("/add")
+    // ? POST parameters
+
+    @PostMapping("/add")// -! Add an NOTE to the course
     public void addNoteToCourse(@RequestPart("note") Note note, @RequestPart("document") MultipartFile file) throws IOException {
         notesService.addNoteToCourse(note,file);
     }
