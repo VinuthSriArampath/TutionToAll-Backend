@@ -18,9 +18,11 @@ public class RegisteredStudentsEntity {
     @Id
     @Column(name = "student_id")
     private String studentId;
+
     @Id
     @Column(name="institute_id")
     private String instituteId;
+
     @Column(name = "registered_date")
     private LocalDate date;
 }

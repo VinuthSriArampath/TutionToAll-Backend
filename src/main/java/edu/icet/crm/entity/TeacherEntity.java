@@ -19,20 +19,28 @@ public class TeacherEntity {
     @Id
     @Column(name = "teacher_id")
     private String id;
+
     @Column(name = "teacher_first_name")
     private String firstName;
+
     @Column(name = "teacher_last_name")
     private String lastName;
+
     @Column(name = "teacher_date_of_birth")
     private LocalDate dob;
+
     @Column(name = "teacher_contact")
     private String contact;
+
     @Column(name = "teacher_email")
     private String email;
+
     @Column(name = "teacher_address")
     private String address;
+
     @Column(name = "teacher_password")
     private String password;
+
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "teacher_id",referencedColumnName = "teacher_id")
     private List<RegisteredTeachersEntity> registeredInstitutes;
