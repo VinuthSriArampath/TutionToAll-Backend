@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface AssignmentService {
     void addAssignment(Assignment assignment, MultipartFile file) throws IOException;
+
     String generateAssignmentId();
+
     List<Assignment> allAssignment();
 
     List<Assignment> getAllAssignmentsByCourseId(String courseId);

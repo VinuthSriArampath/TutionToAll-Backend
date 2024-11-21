@@ -27,6 +27,37 @@ import java.util.Optional;
 public class AssignmentServiceImpl implements AssignmentService {
     private final AssignmentRepository assignmentRepository;
     private final ObjectMapper mapper;
+
+    @Override
+    public String generateAssignmentId() {
+        List<Assignment> assignmentList = allAssignment();
+        assignmentList.sort((as1, as2)->{
+            int id1 = Integer.parseInt(as1.getId().split("Asi")[1]);
+            int id2 = Integer.parseInt(as2.getId().split("Asi")[1]);
+            return Integer.compare(id1,id2);
+        });
+        int idNum = assignmentList.isEmpty() ? 1 : Integer.parseInt(assignmentList.get(assignmentList.size() - 1).getId().split("Asi")[1]) + 1;
+        return "Asi" + idNum;
+    }
+    
+    @Override
+    public List<Assignment> allAssignment() {
+        List<Assignment> assignmentList = new ArrayList<>();
+        assignmentRepository.findAll().forEach(
+                assignmentEntity -> assignmentList.add(mapper.convertValue(assignmentEntity, Assignment.class))
+        );
+        return assignmentList;
+    }
+
+    @Override
+    public List<Assignment> getAllAssignmentsByCourseId(String courseId) {
+        List<Assignment> allAssignmentListCourseId = new ArrayList<>();
+        allAssignment().forEach(assignment -> {
+            if (assignment.getCourseId().equals(courseId)) allAssignmentListCourseId.add(assignment);
+        });
+        return allAssignmentListCourseId;
+    }
+    
     @Override
     public void addAssignment(Assignment assignment, MultipartFile file) throws IOException {
         AssignmentEntity assignmentEntity = mapper.convertValue(assignment, AssignmentEntity.class);
@@ -50,36 +81,6 @@ public class AssignmentServiceImpl implements AssignmentService {
         assignmentEntity.setId(id);
         assignmentEntity.setPath(filePath.toString());
         assignmentRepository.save(assignmentEntity);
-    }
-
-    @Override
-    public List<Assignment> allAssignment() {
-        List<Assignment> assignmentList = new ArrayList<>();
-        assignmentRepository.findAll().forEach(
-                assignmentEntity -> assignmentList.add(mapper.convertValue(assignmentEntity, Assignment.class))
-        );
-        return assignmentList;
-    }
-
-    @Override
-    public List<Assignment> getAllAssignmentsByCourseId(String courseId) {
-        List<Assignment> allAssignmentListCourseId = new ArrayList<>();
-        allAssignment().forEach(assignment -> {
-            if (assignment.getCourseId().equals(courseId)) allAssignmentListCourseId.add(assignment);
-        });
-        return allAssignmentListCourseId;
-    }
-
-    @Override
-    public String generateAssignmentId() {
-        List<Assignment> assignmentList = allAssignment();
-        assignmentList.sort((as1, as2)->{
-            int id1 = Integer.parseInt(as1.getId().split("Asi")[1]);
-            int id2 = Integer.parseInt(as2.getId().split("Asi")[1]);
-            return Integer.compare(id1,id2);
-        });
-        int idNum = assignmentList.isEmpty() ? 1 : Integer.parseInt(assignmentList.get(assignmentList.size() - 1).getId().split("Asi")[1]) + 1;
-        return "Asi" + idNum;
     }
 
     @Override
