@@ -5,19 +5,18 @@ import edu.icet.crm.model.LoginUser;
 import edu.icet.crm.model.RegisteredStudents;
 import edu.icet.crm.model.RegisteredTeachers;
 import edu.icet.crm.util.ResponseMessage;
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
 public interface InstituteService {
-    void registerInstitutes(@Valid Institute institute);
+    void registerInstitutes(Institute institute);
 
     Institute getInstituteById(String id);
 
     void deleteInstitute(String id);
 
-    void updateInstitute(@Valid Institute institute);
+    void updateInstitute(Institute institute);
 
     List<Institute> getAllInstitute();
 

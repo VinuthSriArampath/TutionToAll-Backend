@@ -31,21 +31,6 @@ public class InstituteServiceImpl implements InstituteService {
     private final TeacherRepository teacherRepository;
     private final NativeRepository nativeRepository;
     private final Encryptor encryptor;
-    @Override
-    public void addTeacher(RegisteredTeachers regTeachers) {
-        teacherRepository.findById(regTeachers.getTeacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
-        InstituteEntity institute = instituteRepository.findByid(regTeachers.getInstituteId());
-        RegisteredTeachersEntity registeredTeacherEntity = mapper.convertValue(regTeachers, RegisteredTeachersEntity.class);
-        institute.getRegisteredTeachers().add(registeredTeacherEntity);
-        instituteRepository.save(institute);
-    }
-
-    @Override
-    public void addStudent(RegisteredStudents regStudents) {
-        InstituteEntity institute = instituteRepository.findByid(regStudents.getInstituteId());
-        institute.getRegisteredStudents().add(mapper.convertValue(regStudents, RegisteredStudentsEntity.class));
-        instituteRepository.save(institute);
-    }
 
     @Override
     public String generateInstituteId() {
@@ -59,7 +44,20 @@ public class InstituteServiceImpl implements InstituteService {
         return "I"+idNum;
     }
 
+    @Override
+    public List<Institute> getAllInstitute() {
+        List<InstituteEntity> allInstituteEntities = instituteRepository.findAll();
+        List<Institute> instituteList=new ArrayList<>();
+        for (InstituteEntity institute : allInstituteEntities) {
+            instituteList.add(mapper.convertValue(institute,Institute.class));
+        }
+        return instituteList;
+    }
 
+    @Override
+    public Institute getInstituteById(String id) {
+        return mapper.convertValue(instituteRepository.findById(id),Institute.class);
+    }
 
     @Override
     public void registerInstitutes(Institute institute) {
@@ -77,16 +75,6 @@ public class InstituteServiceImpl implements InstituteService {
     }
 
     @Override
-    public Institute getInstituteById(String id) {
-        return mapper.convertValue(instituteRepository.findById(id),Institute.class);
-    }
-
-    @Override
-    public void deleteInstitute(String id) {
-        instituteRepository.deleteById(id);
-    }
-
-    @Override
     public void updateInstitute(Institute institute) {
         try {
             institute.setPassword(encryptor.encryptString(institute.getPassword()));
@@ -97,19 +85,30 @@ public class InstituteServiceImpl implements InstituteService {
     }
 
     @Override
-    public List<Institute> getAllInstitute() {
-        List<InstituteEntity> allInstituteEntities = instituteRepository.findAll();
-        List<Institute> instituteList=new ArrayList<>();
-        for (InstituteEntity institute : allInstituteEntities) {
-            instituteList.add(mapper.convertValue(institute,Institute.class));
-        }
-        return instituteList;
+    public void deleteInstitute(String id) {
+        instituteRepository.deleteById(id);
+    }
+
+    @Override
+    public void addStudent(RegisteredStudents regStudents) {
+        InstituteEntity institute = instituteRepository.findByid(regStudents.getInstituteId());
+        institute.getRegisteredStudents().add(mapper.convertValue(regStudents, RegisteredStudentsEntity.class));
+        instituteRepository.save(institute);
     }
 
     @Override
     @Transactional
     public void removeStudentFromInstitute(String instituteId, String studentId) {
         nativeRepository.removeStudentFromInstitute(instituteId,studentId);
+    }
+
+    @Override
+    public void addTeacher(RegisteredTeachers regTeachers) {
+        teacherRepository.findById(regTeachers.getTeacherId()).orElseThrow(() -> new RuntimeException("Teacher not found"));
+        InstituteEntity institute = instituteRepository.findByid(regTeachers.getInstituteId());
+        RegisteredTeachersEntity registeredTeacherEntity = mapper.convertValue(regTeachers, RegisteredTeachersEntity.class);
+        institute.getRegisteredTeachers().add(registeredTeacherEntity);
+        instituteRepository.save(institute);
     }
 
     @Override
