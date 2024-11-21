@@ -29,28 +29,6 @@ public class StudentServiceImpl implements StudentService {
     private final Encryptor encryptor;
 
     @Override
-    public void updateStudent(Student student) {
-        StudentEntity studentEntity = studentRepository.findByid(student.getId());
-        studentEntity.setFirstName(student.getFirstName());
-        studentEntity.setLastName(student.getLastName());
-        studentEntity.setContact(student.getContact());
-        studentEntity.setDob(student.getDob());
-        studentEntity.setEmail(student.getEmail());
-        studentEntity.setAddress(student.getAddress());
-        try {
-            studentEntity.setPassword(encryptor.encryptString(student.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        studentRepository.save(studentEntity);
-    }
-
-    @Override
-    public void deleteStudent(String id) {
-        studentRepository.deleteById(id);
-    }
-
-    @Override
     public String generateStudentId() {
         List<Student> allStudents = getAllStudents();
         allStudents.sort((stu1, stu2) -> {
@@ -67,18 +45,6 @@ public class StudentServiceImpl implements StudentService {
         List<Student> allStudents = new ArrayList<>();
         studentRepository.findAll().forEach(studentEntity -> allStudents.add(mapper.convertValue(studentEntity, Student.class)));
         return allStudents;
-    }
-
-    @Override
-    public void registerStudent(Student student) {
-        student.setId(generateStudentId());
-        try {
-            student.setPassword(encryptor.encryptString(student.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
-        studentRepository.save(mapper.convertValue(student, StudentEntity.class));
-        emailService.sentStudentRegistrationSuccessful(student.getEmail(),"Registration Successful",student.getId());
     }
 
     @Override
@@ -100,6 +66,40 @@ public class StudentServiceImpl implements StudentService {
             institute.setInstituteName(institute1.getName());
         });
         return student;
+    }
+
+    @Override
+    public void registerStudent(Student student) {
+        student.setId(generateStudentId());
+        try {
+            student.setPassword(encryptor.encryptString(student.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        studentRepository.save(mapper.convertValue(student, StudentEntity.class));
+        emailService.sentStudentRegistrationSuccessful(student.getEmail(),"Registration Successful",student.getId());
+    }
+
+    @Override
+    public void updateStudent(Student student) {
+        StudentEntity studentEntity = studentRepository.findByid(student.getId());
+        studentEntity.setFirstName(student.getFirstName());
+        studentEntity.setLastName(student.getLastName());
+        studentEntity.setContact(student.getContact());
+        studentEntity.setDob(student.getDob());
+        studentEntity.setEmail(student.getEmail());
+        studentEntity.setAddress(student.getAddress());
+        try {
+            studentEntity.setPassword(encryptor.encryptString(student.getPassword()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        studentRepository.save(studentEntity);
+    }
+
+    @Override
+    public void deleteStudent(String id) {
+        studentRepository.deleteById(id);
     }
 
     @Override
