@@ -15,28 +15,34 @@ import java.util.List;
 public class TeacherController {
     private final TeacherService teacherService;
 
-    @GetMapping("/all")
+    // ? GET parameters
+
+    @GetMapping("/all") // -! GET ALL TEACHERS
     public List<Teacher> getAllTeachers(){
         return teacherService.getAllTeachers();
     }
-    @GetMapping("/search/{id}")
+
+    @GetMapping("/search/{id}")// -! GET TEACHER BY ID
     public Teacher searchStudentById(@PathVariable String id){
         return teacherService.searchTeacherById(id);
     }
 
-    @PostMapping("/register")
+    // ? POST parameters
+    @PostMapping("/register")// -! REGISTER TEACHER
     public void registerStudent(@Valid @RequestBody Teacher teacher){
         teacherService.registerTeacher(teacher);
     }
 
+    // ? PATCH parameters
 
-    @PatchMapping("/update")
+    @PatchMapping("/update") // -! UPDATE TEACHER
     public void updateStudent(@RequestBody Teacher teacher){
         teacherService.updateTeacher(teacher);
     }
 
+    // ? DELETE parameters
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")// -! DELETE TEACHER
     public void deleteStudent(@PathVariable String id){
         teacherService.deleteTeacher(id);
     }
