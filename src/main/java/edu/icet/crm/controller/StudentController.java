@@ -14,26 +14,37 @@ import java.util.List;
 @RequestMapping("/students")
 public class StudentController {
     private final StudentService studentService;
-    @PostMapping("/register")
-    public void registerStudent(@Valid @RequestBody Student student){
-        studentService.registerStudent(student);
+
+    // ? GET parameters
+
+    @GetMapping("/all")// -! GET ALL STUDENTS
+    public List<Student> getAllStudents(){
+        return studentService.getAllStudents();
     }
-    @GetMapping("/search/{id}")
+    @GetMapping("/search/{id}")// -! GET STUDENT BY ID
     public Student searchStudentById(@PathVariable String id){
         return studentService.searchStudentById(id);
     }
-    @DeleteMapping("/delete/{id}")
-    public void deleteStudent(@PathVariable String id){
-        studentService.deleteStudent(id);
+
+    // ? POST parameters
+
+    @PostMapping("/register")// -! REGISTER STUDENT
+    public void registerStudent(@Valid @RequestBody Student student){
+        studentService.registerStudent(student);
     }
 
-    @PatchMapping("/update")
+    //? PATCH parameters
+
+    @PatchMapping("/update") // -! UPDATE STUDENT
     public void updateStudent(@RequestBody Student student){
         studentService.updateStudent(student);
     }
 
-    @GetMapping("/all")
-    public List<Student> getAllStudents(){
-        return studentService.getAllStudents();
+    // ? DELETE parameters
+
+    @DeleteMapping("/delete/{id}")// -! DELETE STUDENT
+    public void deleteStudent(@PathVariable String id){
+        studentService.deleteStudent(id);
     }
+
 }
