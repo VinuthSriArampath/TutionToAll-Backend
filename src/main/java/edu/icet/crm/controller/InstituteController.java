@@ -44,7 +44,7 @@ public class InstituteController {
         instituteService.updateInstitute(institute);
     }
 
-    @PatchMapping("{instituteId}/updatePassword")
+    @PatchMapping("/{instituteId}/updatePassword")
     public void updateInstitutePassword(@PathVariable String instituteId,@RequestBody String password){
         instituteService.updateInstitutePassword(instituteId,password);
     }

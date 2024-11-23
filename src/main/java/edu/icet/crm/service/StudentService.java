@@ -21,4 +21,6 @@ public interface StudentService {
     void updateStudent(Student student);
 
     ResponseEntity<ResponseMessage> authenticateStudentLogin(LoginUser loginUser);
+
+    void updateStudentPassword(String studentId, String password);
 }

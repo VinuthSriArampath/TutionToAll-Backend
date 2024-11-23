@@ -11,6 +11,7 @@ import edu.icet.crm.service.StudentService;
 import edu.icet.crm.util.Encryptor;
 import edu.icet.crm.util.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -74,10 +76,22 @@ public class StudentServiceImpl implements StudentService {
         try {
             student.setPassword(encryptor.encryptString(student.getPassword()));
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            log.error("Could not encrypt password");
         }
         studentRepository.save(mapper.convertValue(student, StudentEntity.class));
         emailService.sentStudentRegistrationSuccessful(student.getEmail(),"Registration Successful",student.getId());
+    }
+
+    @Override
+    public void updateStudentPassword(String studentId, String password) {
+        StudentEntity studentEntity = studentRepository.findByid(studentId);
+        try {
+            studentEntity.setPassword(encryptor.encryptString(password));
+            studentRepository.save(studentEntity);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("Could not encrypt");
+        }
+
     }
 
     @Override
@@ -89,11 +103,6 @@ public class StudentServiceImpl implements StudentService {
         studentEntity.setDob(student.getDob());
         studentEntity.setEmail(student.getEmail());
         studentEntity.setAddress(student.getAddress());
-        try {
-            studentEntity.setPassword(encryptor.encryptString(student.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
         studentRepository.save(studentEntity);
     }
 

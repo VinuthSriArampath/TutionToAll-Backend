@@ -40,6 +40,10 @@ public class StudentController {
         studentService.updateStudent(student);
     }
 
+    @PatchMapping("/{studentId}/updatePassword")
+    public void updateStudentPassword(@PathVariable String studentId, @RequestBody String password){
+        studentService.updateStudentPassword(studentId, password);
+    }
     // ? DELETE parameters
 
     @DeleteMapping("/delete/{id}")// -! DELETE STUDENT
