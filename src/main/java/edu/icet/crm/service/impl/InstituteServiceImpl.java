@@ -13,6 +13,7 @@ import edu.icet.crm.service.InstituteService;
 import edu.icet.crm.util.Encryptor;
 import edu.icet.crm.util.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class InstituteServiceImpl implements InstituteService {
@@ -76,12 +78,23 @@ public class InstituteServiceImpl implements InstituteService {
 
     @Override
     public void updateInstitute(Institute institute) {
-        try {
-            institute.setPassword(encryptor.encryptString(institute.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+        InstituteEntity instituteEntity = instituteRepository.findByid(institute.getId());
+        instituteEntity.setName(institute.getName());
+        instituteEntity.setEmail(institute.getEmail());
+        instituteEntity.setContact(institute.getContact());
+        instituteEntity.setAddress(institute.getAddress());
         instituteRepository.save(mapper.convertValue(institute,InstituteEntity.class));
+    }
+
+    @Override
+    public void updateInstitutePassword(String instituteId, String password) {
+        InstituteEntity instituteEntity = instituteRepository.findByid(instituteId);
+        try {
+            instituteEntity.setPassword(encryptor.encryptString(password));
+            instituteRepository.save(instituteEntity);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("Could not encrypt");
+        }
     }
 
     @Override

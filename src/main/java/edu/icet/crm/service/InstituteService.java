@@ -31,4 +31,6 @@ public interface InstituteService {
     void removeTeacherFromInstitute(String instituteId, String teacherId);
 
     ResponseEntity<ResponseMessage> authenticateInstituteLogin(LoginUser loginUser);
+
+    void updateInstitutePassword(String instituteId, String password);
 }
