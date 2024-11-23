@@ -10,6 +10,7 @@ import edu.icet.crm.service.TeacherService;
 import edu.icet.crm.util.Encryptor;
 import edu.icet.crm.util.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TeacherServiceImpl implements TeacherService {
@@ -71,12 +75,18 @@ public class TeacherServiceImpl implements TeacherService {
         teacherEntity.setDob(teacher.getDob());
         teacherEntity.setEmail(teacher.getEmail());
         teacherEntity.setAddress(teacher.getAddress());
-        try {
-            teacherEntity.setPassword(encryptor.encryptString(teacher.getPassword()));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
         teacherRepository.save(teacherEntity);
+    }
+
+    @Override
+    public void updateTeacherPassword(String teacherId, String password) {
+        TeacherEntity teacherEntity = mapper.convertValue(teacherRepository.findById(teacherId), TeacherEntity.class);
+        try {
+            teacherEntity.setPassword(encryptor.encryptString(password));
+            teacherRepository.save(teacherEntity);
+        } catch (NoSuchAlgorithmException e) {
+            log.error("Could not encrypt password");
+        }
     }
 
     @Override

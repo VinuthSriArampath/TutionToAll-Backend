@@ -21,4 +21,6 @@ public interface TeacherService {
     void updateTeacher(Teacher teacher);
 
     ResponseEntity<ResponseMessage> authenticateTeacherLogin(LoginUser loginUser);
+
+    void updateTeacherPassword(String teacherId, String password);
 }

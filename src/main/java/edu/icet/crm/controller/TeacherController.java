@@ -40,6 +40,10 @@ public class TeacherController {
         teacherService.updateTeacher(teacher);
     }
 
+    @PatchMapping("/{teacherId}/updatePassword")
+    public void updateTeacherPassword(@PathVariable String teacherId,@RequestBody String password){
+        teacherService.updateTeacherPassword(teacherId,password);
+    }
     // ? DELETE parameters
 
     @DeleteMapping("/delete/{id}")// -! DELETE TEACHER
