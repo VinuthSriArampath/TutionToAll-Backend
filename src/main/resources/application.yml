@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/TuitionToAll?createDatabaseIfNotExist=true
+    url: jdbc:mysql://root:zdsDUEAkAeLlnCBqndebljPCKqIsRRDO@autorack.proxy.rlwy.net:33921/railway
     username: root
-    password: 123456
+    password: zdsDUEAkAeLlnCBqndebljPCKqIsRRDO
 
   jpa:
     hibernate:
